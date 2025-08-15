@@ -12,4 +12,8 @@ const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length);
 export class UserComponent {
   //If marked private that property cannot be used in class
   selectedUser = DUMMY_USERS[randomIndex];
+
+  get imagePath() {
+    return 'assets/users/' + this.selectedUser.avatar;
+  }
 }
