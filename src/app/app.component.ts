@@ -12,4 +12,8 @@ import { DUMMY_USERS } from './dummy-users';
 export class AppComponent {
   //exposing imported data to component template
   users = DUMMY_USERS;
+
+  onSelectUser(id: string) {
+    console.log(id);
+  }
 }
