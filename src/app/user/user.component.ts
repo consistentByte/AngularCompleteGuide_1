@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
 import { DUMMY_USERS } from '../dummy-users';
 
-
 const randomIndex = Math.floor(Math.random() * DUMMY_USERS.length);
 @Component({
   selector: 'app-user',
   standalone: true,
   imports: [],
   templateUrl: './user.component.html',
-  styleUrl: './user.component.css'
+  styleUrl: './user.component.css',
 })
 export class UserComponent {
   //If marked private that property cannot be used in class
   selectedUser = DUMMY_USERS[randomIndex];
-
 }
