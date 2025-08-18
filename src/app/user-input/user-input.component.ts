@@ -4,8 +4,12 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-user-input',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './user-input.component.html',
   styleUrl: './user-input.component.css',
 })
-export class UserInputComponent {}
+export class UserInputComponent {
+  onSubmit() {
+    console.log('Submitted');
+  }
+}
