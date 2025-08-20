@@ -4,14 +4,13 @@ import { InvestmentService } from '../investment.service';
 
 @Component({
   selector: 'app-investment-results',
-  standalone: true,
-  imports: [CurrencyPipe],
   templateUrl: './investment-results.component.html',
   styleUrl: './investment-results.component.css',
 })
 export class InvestmentResultsComponent {
   private investmentService = inject(InvestmentService);
 
+  // Ways to get data from service
   // get resultData() {
   //   //resultsData is a signal in service, so getter returns a signal
   //   return this.investmentService.resultsData;
