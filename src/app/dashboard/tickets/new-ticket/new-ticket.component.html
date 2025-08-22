@@ -6,6 +6,10 @@
     <textarea name="request" id="request" rows="3"></textarea>
   </app-control>
   <p>
-    <button appButton>Submit <span ngProjectAs="icon">⌲</span></button>
+    <button appButton>
+      Submit
+      <span ngProjectAs="icon">⌲</span>
+      <!-- This attribute can be added to any element used in content projection and allows defining a selector that the component's content projection logic can match against. -->
+    </button>
   </p>
 </form>
