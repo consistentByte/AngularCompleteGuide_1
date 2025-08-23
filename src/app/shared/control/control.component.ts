@@ -1,7 +1,9 @@
 import {
   Component,
+  ElementRef,
   HostBinding,
   HostListener,
+  inject,
   input,
   ViewEncapsulation,
 } from '@angular/core';
@@ -19,6 +21,8 @@ import {
   },
 })
 export class ControlComponent {
+  private el = inject(ElementRef); // injecting ElementRef in a component like this can let us access the host element.
+
   // Alternate to setting host property of Component decorator to set class to host element.
   // @HostBinding('class') className = 'control';
   // HostBinding not preffered now, its better to use host property instead.
@@ -26,7 +30,7 @@ export class ControlComponent {
   label = input.required<string>();
 
   onhostClick() {
-    console.log('Host element clicked');
+    console.log('Host element clicked', this.el);
   }
 
   // @HostListener('click') onhostClickByHostListener() {
