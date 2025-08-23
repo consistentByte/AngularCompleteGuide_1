@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-server-status',
@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   templateUrl: './server-status.component.html',
   styleUrl: './server-status.component.css',
 })
-export class ServerStatusComponent {
+export class ServerStatusComponent implements OnInit {
   //Use this way when setting string values for few choices to get error on typo
   currentStatus: 'online' | 'offline' | 'unknown' = 'online';
 
