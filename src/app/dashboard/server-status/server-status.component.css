@@ -3,22 +3,22 @@
   width: 15rem;
 }
 
-.status p:first-of-type {
+:host p:first-of-type {
   font-weight: bold;
   animation: pulse 2s infinite;
   margin: 0 0 0.5rem 0;
   font-size: 1.15rem;
 }
 
-.status-online p:first-of-type {
+:host-online p:first-of-type {
   color: #6a3cb0;
 }
 
-.status-offline p:first-of-type {
+:host-offline p:first-of-type {
   color: #b22084;
 }
 
-.status-unknown p:first-of-type {
+:host-unknown p:first-of-type {
   color: grey;
 }
 
