@@ -1,24 +1,24 @@
-#status {
+:host {
   display: block;
   width: 15rem;
 }
 
-:host p:first-of-type {
+.status p:first-of-type {
   font-weight: bold;
   animation: pulse 2s infinite;
   margin: 0 0 0.5rem 0;
   font-size: 1.15rem;
 }
 
-:host-online p:first-of-type {
+.status-online p:first-of-type {
   color: #6a3cb0;
 }
 
-:host-offline p:first-of-type {
+.status-offline p:first-of-type {
   color: #b22084;
 }
 
-:host-unknown p:first-of-type {
+.status-unknown p:first-of-type {
   color: grey;
 }
 
