@@ -8,5 +8,19 @@ import { Component } from '@angular/core';
   styleUrl: './server-status.component.css',
 })
 export class ServerStatusComponent {
-  currentStatus = 'online';
+  //Use this way when setting string values for few choices to get error on typo
+  currentStatus: 'online' | 'offline' | 'unknown' = 'online';
+
+  constructor() {
+    setInterval(() => {
+      const rnd = Math.random(); // 0-1
+      if (rnd < 0.5) {
+        this.currentStatus = 'online';
+      } else if (rnd < 0.9) {
+        this.currentStatus = 'offline';
+      } else {
+        this.currentStatus = 'unknown';
+      }
+    }, 5000);
+  }
 }
