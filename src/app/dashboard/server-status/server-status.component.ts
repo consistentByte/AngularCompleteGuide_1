@@ -11,7 +11,9 @@ export class ServerStatusComponent {
   //Use this way when setting string values for few choices to get error on typo
   currentStatus: 'online' | 'offline' | 'unknown' = 'online';
 
-  constructor() {
+  constructor() {}
+
+  ngOnInit() {
     setInterval(() => {
       const rnd = Math.random(); // 0-1
       if (rnd < 0.5) {
