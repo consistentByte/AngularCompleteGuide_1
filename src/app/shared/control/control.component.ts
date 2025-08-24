@@ -1,5 +1,7 @@
 import {
   Component,
+  contentChild,
+  ContentChild,
   ElementRef,
   HostBinding,
   HostListener,
@@ -27,10 +29,14 @@ export class ControlComponent {
   // @HostBinding('class') className = 'control';
   // HostBinding not preffered now, its better to use host property instead.
 
+  // @ContentChild('input') private control?: ElementRef<HTMLInputElement | HTMLTextAreaElement>;  
+  private control = contentChild.required<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('input');
+  
   label = input.required<string>();
 
   onhostClick() {
     console.log('Host element clicked', this.el);
+    console.log(this.control());
   }
 
   // @HostListener('click') onhostClickByHostListener() {
