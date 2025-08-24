@@ -6,7 +6,9 @@
     <textarea name="request" id="request" rows="3" #textInput></textarea>
   </app-control>
   <p>
-    <button appButton>
+    <!-- <button appButton #btn> ButtonComponent => template variable stores instance of ButtonComponent, not underlying dom element, then we can access the properties and methods of our ButtonComponent -->
+    <!-- <button #btn> HTMLButtonElement => template vaariable stores underlying dom element -->
+    <button appButton #btn>
       Submit
       <span ngProjectAs="icon">⌲</span>
       <!-- This attribute can be added to any element used in content projection and allows defining a selector that the component's content projection logic can match against. -->
