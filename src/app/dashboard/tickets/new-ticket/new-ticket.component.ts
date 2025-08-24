@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ControlComponent } from '../../../shared/control/control.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { FormsModule } from '@angular/forms';
@@ -11,8 +11,13 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './new-ticket.component.css',
 })
 export class NewTicketComponent {
+  // @ViewChild(ButtonComponent) form!: HTMLFormElement; // if we put a class name as selector ViewChild will try to find an instance of buttoncomponent and will store that in form property
+  @ViewChild('form') form?: ElementRef<HTMLFormElement>;
+
   onSubmit(title: string, ticketText: string) {
     console.dir(title);
     console.dir(ticketText);
+    // form.reset();
+    this.form?.nativeElement.reset();
   }
 }
