@@ -1,6 +1,6 @@
-<form (ngSubmit)="onSubmit()">
+<form (ngSubmit)="onSubmit(titleInput)">
   <app-control label="Title">
-    <input name="title" id="title" />
+    <input name="title" id="title" #titleInput />
   </app-control>
   <app-control label="Request">
     <textarea name="request" id="request" rows="3"></textarea>
@@ -13,3 +13,5 @@
     </button>
   </p>
 </form>
+
+<!-- extracting values of inputs=> two-way binding using ngModel, other way using template variables. -->
