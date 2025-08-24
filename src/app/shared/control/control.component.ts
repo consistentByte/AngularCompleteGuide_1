@@ -1,4 +1,6 @@
 import {
+  afterNextRender,
+  afterRender,
   Component,
   contentChild,
   ContentChild,
@@ -33,6 +35,18 @@ export class ControlComponent {
   private control = contentChild.required<ElementRef<HTMLInputElement | HTMLTextAreaElement>>('input');
   
   label = input.required<string>();
+
+  constructor() {
+    afterRender(() => {
+      // Whenever anything changes anywhere in entire application.
+      console.log('After RENDER')
+    });
+
+    afterNextRender(() => {
+      // afterNextRender is not executed repeatedly. It triggers only once after the next change anywhere in the entire Angular application.
+      console.log('After NEXT RENDER');
+    });
+  }
 
   onhostClick() {
     console.log('Host element clicked', this.el);
