@@ -1,4 +1,4 @@
-import { Component, OnInit, DestroyRef, inject } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject, signal, effect } from '@angular/core';
 import { interval } from 'rxjs';
 
 @Component({
@@ -10,23 +10,28 @@ import { interval } from 'rxjs';
 })
 export class ServerStatusComponent implements OnInit {
   //Use this way when setting string values for few choices to get error on typo
-  currentStatus: 'online' | 'offline' | 'unknown' = 'online';
+  currentStatus = signal<'online' | 'offline' | 'unknown'>('online');
   
   //Alternative to ngOnDestroy
   private destroyRef = inject(DestroyRef) // can also inject it using constructor.
   // private interval?: ReturnType<typeof setInterval>;
 
-  constructor() {}
+  constructor() {
+    // Listen for changes in a signal values inside component ts => effect.
+    effect(() => {
+      console.log(this.currentStatus());
+    });
+  }
 
   ngOnInit() {
     const interval = setInterval(() => {
       const rnd = Math.random(); // 0-1
       if (rnd < 0.5) {
-        this.currentStatus = 'online';
+        this.currentStatus.set('online') ;
       } else if (rnd < 0.9) {
-        this.currentStatus = 'offline';
+        this.currentStatus.set('offline') ;
       } else {
-        this.currentStatus = 'unknown';
+        this.currentStatus.set('unknown') ;
       }
     }, 5000);
 
