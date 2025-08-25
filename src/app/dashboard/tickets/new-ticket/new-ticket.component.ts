@@ -19,6 +19,8 @@ export class NewTicketComponent implements OnInit, AfterViewInit{
   // @ViewChildren(ButtonComponent) buttonComponent?: ButtonComponent;
   
   add = output<{title: string, text: string}>();
+  enteredTitle = '';
+  enteredText = '';
 
   ngOnInit(): void {
     console.log('ON INIT');
@@ -30,10 +32,15 @@ export class NewTicketComponent implements OnInit, AfterViewInit{
     console.log(this.form?.nativeElement);
   }
 
-  onSubmit(title: string, ticketText: string) {
-    this.add.emit({text: ticketText, title});
+  // onSubmit(title: string, ticketText: string) {
+  onSubmit() {
+    this.add.emit({title: this.enteredTitle, text:this.enteredText});
     // form.reset();
-    this.form?.nativeElement.reset();
+    // this.form?.nativeElement.reset();
+
+    //Since we are using two-way binding, instead of resetting form, we can reset the variables responsible back to empty.
+    this.enteredText = '';
+    this.enteredTitle = '';
   }
 
 }
