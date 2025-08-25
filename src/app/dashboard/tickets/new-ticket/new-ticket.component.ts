@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, viewChild, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, output, viewChild, ViewChild, ViewChildren } from '@angular/core';
 import { ControlComponent } from '../../../shared/control/control.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { FormsModule } from '@angular/forms';
@@ -17,13 +17,8 @@ export class NewTicketComponent implements OnInit, AfterViewInit{
 
   // to select multiple children use ViewChildren
   // @ViewChildren(ButtonComponent) buttonComponent?: ButtonComponent;
-
-  onSubmit(title: string, ticketText: string) {
-    console.dir(title);
-    console.dir(ticketText);
-    // form.reset();
-    this.form?.nativeElement.reset();
-  }
+  
+  add = output<{title: string, text: string}>();
 
   ngOnInit(): void {
     console.log('ON INIT');
@@ -34,6 +29,13 @@ export class NewTicketComponent implements OnInit, AfterViewInit{
     console.log('AFTER VIEW INIT');
     console.log(this.form?.nativeElement);
   }
+
+  onSubmit(title: string, ticketText: string) {
+    this.add.emit({text: ticketText, title});
+    // form.reset();
+    this.form?.nativeElement.reset();
+  }
+
 }
 
 // if we use signal viewChild function we may get access to viewChild elements in ngOnInit, 
