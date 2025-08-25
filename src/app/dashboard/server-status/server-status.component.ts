@@ -21,6 +21,18 @@ export class ServerStatusComponent implements OnInit {
     effect(() => {
       console.log(this.currentStatus());
     });
+
+    const tasks = [1,2,3,5]; 
+
+    effect((onCleanup) => {
+      const tasks_ = tasks;
+      const timer = setTimeout(() => {
+        console.log(`Current number of tasks: ${tasks_.length}`);
+      }, 1000);
+      onCleanup(() => {
+        clearTimeout(timer);
+      });
+    });
   }
 
   ngOnInit() {
