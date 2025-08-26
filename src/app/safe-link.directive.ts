@@ -1,4 +1,4 @@
-import { Directive } from "@angular/core";
+import { Directive, input } from "@angular/core";
 
 @Directive({
     selector: 'a[app-safe-Link]',
@@ -8,6 +8,8 @@ import { Directive } from "@angular/core";
     }
 })
 export class SafeLinkDirective {
+    queryParams = input<string>('myapp');
+
     constructor(){
         console.log('Safe Link Directive is active!')
     }
@@ -15,6 +17,9 @@ export class SafeLinkDirective {
     onConfirmLeavePage(event: MouseEvent) {
         const wantsToLeave = window.confirm('Do you want to leave the app?');
         if(wantsToLeave) {
+            const address = (event.target as HTMLAnchorElement).href;
+            (event.target as HTMLAnchorElement).href = address + '?from=' + this.queryParams();            
+            
             return;
         }
         event.preventDefault(); // cancel the naviagation click
