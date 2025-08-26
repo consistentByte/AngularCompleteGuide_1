@@ -10,25 +10,26 @@ html {
 
 body {
   margin: 0;
-  background-color: #c0bdc3;
+  background-color: #edebf0;
+  padding: 3rem;
 }
 
-main {
-  width: 80%;
-  margin: 3rem 10%;
-}
-
-#dashboard {
+#inputs {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1.5rem;
-  max-width: 85rem;
+  gap: 1rem;
 }
 
-@media (min-width: 768px) {
-  #dashboard {
-    flex-direction: row;
-  }
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.15rem;
+}
+
+input {
+  display: block;
+  width: 5rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 2px;
 }
