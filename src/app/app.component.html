@@ -4,4 +4,9 @@
   <hr />
 
   <app-auth />
+  <!-- @if(isAdmin()) { -->
+
+  <!-- Structural Directive, we need to add * before structural directive to tell angular it is a structual directive and will change structure of DOM, similarly *ngFor-->
+  <p *ngIf="isAdmin()">Only admins should see this!</p>
+  <!-- } -->
 </main>
