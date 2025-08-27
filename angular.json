@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "directives-deep-dive": {
+    "pipes-deep-dive": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/directives-deep-dive",
+            "outputPath": "dist/pipes-deep-dive",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -59,10 +59,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "directives-deep-dive:build:production"
+              "buildTarget": "pipes-deep-dive:build:production"
             },
             "development": {
-              "buildTarget": "directives-deep-dive:build:development"
+              "buildTarget": "pipes-deep-dive:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -70,7 +70,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "directives-deep-dive:build"
+            "buildTarget": "pipes-deep-dive:build"
           }
         },
         "test": {

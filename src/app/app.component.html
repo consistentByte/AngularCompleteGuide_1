@@ -1,27 +1,30 @@
 <main>
-  <app-learning-resources />
+  <article class="temperatures">
+    <header>
+      <img src="temp-icon.png" alt="Thermometer icon" />
+      <div>
+        <h2>Current Temperatures</h2>
+        <p>{{ currentDate }}</p>
+      </div>
+    </header>
+    <p>New York: {{ currentTemperaturs.newYork }}</p>
+    <p>Berlin: {{ currentTemperaturs.berlin }}</p>
+    <p>Paris: {{ currentTemperaturs.paris }}</p>
+    <p>Chicago: {{ currentTemperaturs.chicago }}</p>
+  </article>
 
-  <hr />
-
-  <app-auth />
-  <!-- @if(isAdmin()) { -->
-
-  <!-- Structural Directive, we need to add * before structural directive to tell angular it is a structual directive and will change structure of DOM, similarly *ngFor-->
-  <!-- <p *ngIf="isAdmin()">Only admins should see this!</p> -->
-  <!-- } -->
-
-  <!-- Our own custom Structural Directive -->
-  <!-- <ng-template appAuth="admin"> -->
-  <!-- <p>Only admins should see this!</p> -->
-  <!-- </ng-template> -->
-  <!--Alternate way to add Structural Directive and make angular add ng-template on its own use *, adding * not only add ng-template but also square brackets as if we are property binding it. So we have to type ts code in ""  -->
-  <p *appAuth="'admin'" appLog class="protected-content admin">
-    Only admins should see this!
-  </p>
-  <p *appAuth="'user'" appLog class="protected-content unauthenticated">
-    Regular users should see this!
-  </p>
-  <p *appAuth="'guest'" appLog class="protected-content authenticated">
-    Guest users should see this!
-  </p>
+  <article class="temperatures">
+    <header>
+      <img src="temp-icon.png" alt="Thermometer icon" />
+      <div>
+        <h2>Historic Temperatures</h2>
+        <p>Berlin</p>
+      </div>
+    </header>
+    <ul>
+      @for (temperature of historicTemperatures; track temperature) {
+      <li (click)="onReset($index)">{{ temperature }}</li>
+      }
+    </ul>
+  </article>
 </main>
