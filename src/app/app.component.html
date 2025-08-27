@@ -11,5 +11,7 @@
   <!-- } -->
 
   <!-- Our own custom Structural Directive -->
-  <p appAuth="admin">Only admins should see this!</p>
+  <ng-template appAuth="admin">
+    <p>Only admins should see this!</p>
+  </ng-template>
 </main>
