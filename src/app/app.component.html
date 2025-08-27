@@ -1,5 +1,5 @@
 <main>
-  <app-learning-resources />
+  <app-learning-resources appLog />
 
   <hr />
 
@@ -15,13 +15,13 @@
   <!-- <p>Only admins should see this!</p> -->
   <!-- </ng-template> -->
   <!--Alternate way to add Structural Directive and make angular add ng-template on its own use *, adding * not only add ng-template but also square brackets as if we are property binding it. So we have to type ts code in ""  -->
-  <p *appAuth="'admin'" class="protected-content admin">
+  <p *appAuth="'admin'" appLog class="protected-content admin">
     Only admins should see this!
   </p>
-  <p *appAuth="'user'" class="protected-content unauthenticated">
+  <p *appAuth="'user'" appLog class="protected-content unauthenticated">
     Regular users should see this!
   </p>
-  <p *appAuth="'guest'" class="protected-content authenticated">
+  <p *appAuth="'guest'" appLog class="protected-content authenticated">
     Guest users should see this!
   </p>
 </main>
