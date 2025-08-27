@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
+  imports: [DatePipe],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
