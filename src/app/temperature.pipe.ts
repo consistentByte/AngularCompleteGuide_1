@@ -5,7 +5,12 @@ import { output, Pipe, PipeTransform } from "@angular/core";
     standalone: true
 })
 export class TemperaturePipe implements PipeTransform{
-    transform(value: string | number, inputType: 'cel' | 'fah', outputType?: 'cel' | 'fah') {
+    // if we chained with number pipe, output of number is of type string or null, and output of that will be input of temp pipe, so making it flexible.
+    transform(value: string | number | null, inputType: 'cel' | 'fah', outputType?: 'cel' | 'fah') {
+        if(!value) {
+            return value;
+        }
+
         let val: number;
         if(typeof value === 'string') {
             val = parseFloat(value);
@@ -28,7 +33,7 @@ export class TemperaturePipe implements PipeTransform{
             symbol = outputType === 'cel' ? '°C' : '°F';
         }
 
-        return `${outputTemp} ${symbol}`;
+        return `${outputTemp.toFixed(2)} ${symbol}`;
     }
     //add PipeTransform to force us write the transform method.
     //All pipe classes need a transform method,and this transform method is executed by angular when we use this pipe in a tempelate.
