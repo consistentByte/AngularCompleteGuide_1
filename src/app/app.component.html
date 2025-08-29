@@ -45,4 +45,6 @@
 
 <!-- Pipes can run a lot, so angular caches the return value and only reruns transform function of pipe only if input value of transform changes, by comparing old inout value with new input value.
 So when passing objects or arrays in input to type, make sure to update the reference and then pass when needed to change the input. 
+, alternate to this set Pipe decorator pure value as false, default is true, by this we disable the caching mechanism and the angular we re-run the transform function, anytime, anywhere anything changed in the application.
+But setting pure to false can make some performance issue, but if we think its needed we can use that as well.
 -->
