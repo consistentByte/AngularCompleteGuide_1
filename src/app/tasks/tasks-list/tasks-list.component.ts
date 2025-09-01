@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 
 import { TaskItemComponent } from './task-item/task-item.component';
+import { TasksService } from '../tasks.service';
 
 @Component({
   selector: 'app-tasks-list',
@@ -10,10 +11,30 @@ import { TaskItemComponent } from './task-item/task-item.component';
   imports: [TaskItemComponent],
 })
 export class TasksListComponent {
+  private taskService = inject(TasksService);
   selectedFilter = signal<string>('all');
-  tasks = [];
+  tasks = this.taskService.allTasks;
 
   onChangeTasksFilter(filter: string) {
     this.selectedFilter.set(filter);
   }
 }
+
+/*
+  In service,
+  tasks = signal<Task[]>([]);
+
+  In comp,
+  tasks =this.taskService.tasks();
+
+  When using signal in comp from service like this, we get a writable signal, we can use this as well but there is an alternate way.]
+
+  In service,
+  private tasks = signal<Task[]>([]);
+  allTasks = this.tasks.asReadonly();
+
+  In comp,
+  tasks = this.taskService.allTasks();
+  Now in comp we get a read only signal, this is to make sure we don't accidently change the data from comp.
+
+*/
