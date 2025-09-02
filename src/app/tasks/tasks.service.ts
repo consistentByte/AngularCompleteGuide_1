@@ -5,6 +5,7 @@ import { Task, TaskStatus } from "./task.model";
 @Injectable({
     providedIn: 'root',
 })
+//comment the decorator to see null injector error.
 
 export class TasksService {
     private tasks = signal<Task[]>([]);
