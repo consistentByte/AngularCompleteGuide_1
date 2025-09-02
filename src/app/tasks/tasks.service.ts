@@ -1,5 +1,5 @@
 import { Injectable, signal } from "@angular/core";
-import { Task } from "./task.model";
+import { Task, TaskStatus } from "./task.model";
 
 // providedIn: 'root', to make it availble anywhere inside the application
 @Injectable({
@@ -18,5 +18,11 @@ export class TasksService {
             status: 'OPEN'
         }
         this.tasks.update((oldTasks) => [...oldTasks, newTask]);
+    }
+
+    updateTaskStatus(taskId: string,  newStatus: TaskStatus) {
+        // map does an operation to all elements and returns the new array.
+        // if we are  changing something we create a new task and return as return the same task object.
+        this.tasks.update((oldTasks) => oldTasks.map(task => task.id === taskId ? {...task, status: newStatus} : task));
     }
 }
