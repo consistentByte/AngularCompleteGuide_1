@@ -9,7 +9,7 @@ import { TasksService } from './tasks.service';
   standalone: true,
   templateUrl: './tasks.component.html',
   imports: [NewTaskComponent, TasksListComponent],
-  providers: [TasksService] // Injecting service using element injector.
+  // providers: [TasksService] // Injecting service using element injector.
 })
 
 /*
