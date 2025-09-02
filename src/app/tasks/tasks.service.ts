@@ -1,10 +1,10 @@
 import { Injectable, signal } from "@angular/core";
 import { Task, TaskStatus } from "./task.model";
 
-// // providedIn: 'root', to make it availble anywhere inside the application
-// @Injectable({
-//     providedIn: 'root',
-// })
+// providedIn: 'root', to make it availble anywhere inside the application
+@Injectable({
+    providedIn: 'root',
+})
 //comment the decorator to see null injector error.
 
 export class TasksService {
