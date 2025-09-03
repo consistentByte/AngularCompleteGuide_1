@@ -3,9 +3,9 @@ import { Task, TaskStatus } from "./task.model";
 import { LoggingService } from "../logging.service";
 
 // providedIn: 'root', to make it availble anywhere inside the application
-@Injectable({
-    providedIn: 'root',
-})
+// @Injectable({
+//     providedIn: 'root',
+// })
 //comment the decorator to see null injector error.
 
 export class TasksService {
