@@ -4,6 +4,7 @@ import { AppComponent } from './app/app.component';
 import { TasksService } from './app/tasks/tasks.service';
 import { InjectionToken } from '@angular/core';
 
+//If we injected any value here, it would be accessible in entire application
 
 //Tokens can be exported to a separate file.
 export const TasksServiceToken = new InjectionToken<TasksService>('tasks-service-token'); // pass which type of value this token will provide to remove type check errors.
