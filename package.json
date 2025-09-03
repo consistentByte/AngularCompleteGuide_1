@@ -1,5 +1,5 @@
 {
-  "name": "services-deep-dive",
+  "name": "change-detection-deep-dive",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
