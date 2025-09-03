@@ -34,6 +34,7 @@ provide : registers a injection token for the injectible service.
     inject(TaskService), angular injects the service corresponding to identifier token.
 
 
+We can not only provide services using injection but also other values.
 */
 
 // bootstrapApplication(AppComponent, {
