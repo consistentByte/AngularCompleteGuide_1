@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { MessagesService } from '../messages.service';
 
 @Component({
@@ -13,12 +13,27 @@ import { MessagesService } from '../messages.service';
   Since this component only needs to be triggered if its input value change and not otherwise,
   so we can use changeDetection as OnPush. to prevent unnecessary detection of this component otherwise.
 */
-export class MessagesListComponent {
+export class MessagesListComponent implements OnInit {
   // messages = input.required<string[]>();
 
   private messagesService = inject(MessagesService);
-  get messages() {
-    return this.messagesService.allMessages;
+  
+  private cdRef = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
+  messages: string[] = [];
+
+  ngOnInit() {
+    //setting up subscription for change in messages  
+    const subscription = this.messagesService.messages$.subscribe((messages) => {
+      // running change detection manually if message list changes.
+      this.messages = messages;
+      this.cdRef.markForCheck();
+    })
+    // returns a Subscription value.
+
+    this.destroyRef.onDestroy(()=> {
+      subscription.unsubscribe();
+    })
   }
 
   get debugOutput() {
