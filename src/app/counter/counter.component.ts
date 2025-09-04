@@ -1,4 +1,4 @@
-import { Component, inject, NgZone, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, NgZone, OnInit, signal } from '@angular/core';
 
 import { InfoMessageComponent } from '../info-message/info-message.component';
 
@@ -8,7 +8,16 @@ import { InfoMessageComponent } from '../info-message/info-message.component';
   templateUrl: './counter.component.html',
   styleUrl: './counter.component.css',
   imports: [InfoMessageComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
+
+/*
+  change detection happens now only if triggered manually, or if input changes, or in case of expired timers
+
+  Now on typing in new message component, counter component is not trigeered so none of above conditions matches.
+
+  */
+
 export class CounterComponent implements OnInit {
   private zone = inject(NgZone);
 
