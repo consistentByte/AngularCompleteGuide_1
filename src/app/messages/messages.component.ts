@@ -37,14 +37,14 @@ since events in this component or child components will trigger OnPush component
 */
 
 export class MessagesComponent {
-  messages = signal<string[]>([]);
+  // messages = signal<string[]>([]); // managing now in service
 
   get debugOutput() {
     console.log('[Messages] "debugOutput" binding re-evaluated.');
     return 'Messages Component Debug Output';
   }
 
-  onAddMessage(message: string) {
-    this.messages.update((oldMessages) => [...oldMessages, message]);
-  }
+  // onAddMessage(message: string) {
+  //   this.messages.update((oldMessages) => [...oldMessages, message]);
+  // }
 }
