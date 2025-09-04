@@ -22,6 +22,10 @@ Any change in new-message which is triggered on every key stroke due to two way 
 
 So the only way to manage this is using OnPush where changedetection must be avoided and not in the place where the event occured.
 so put OnPush on counter component.
+
+
+If we do not use signals everything above will be true, but if we use signals even signal changes also lead to change detection being active for this component or child comp.
+  
 */
 
 export class NewMessageComponent {

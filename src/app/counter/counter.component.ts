@@ -16,7 +16,9 @@ import { InfoMessageComponent } from '../info-message/info-message.component';
 
   Now on typing in new message component, counter component is not trigeered so none of above conditions matches.
 
-  */
+  If we do not use signals everything above will be true, but if we use signals even signal changes also lead to change detection being active for this component or child comp.
+  
+*/
 
 export class CounterComponent implements OnInit {
   private zone = inject(NgZone);

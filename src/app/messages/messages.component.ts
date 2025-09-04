@@ -28,6 +28,12 @@ For example, in the messages component, if there are no input properties, change
 This strategy limits the number of events that trigger change detection, making OnPush a powerful performance optimization. It is especially beneficial in applications where not all components need to be checked on every change.
 
 However, in very simple or highly interconnected applications(changes affecting while app) where most changes affect all components, OnPush may not provide significant benefits.
+
+
+If we do not use signals everything above will be true, but if we use signals even signal changes also lead to change detection being active for this component or child comp.
+In many cases, it might not matter too much because Signals often change due to events which are being watched anyway.
+since events in this component or child components will trigger OnPush components to be checked again.
+
 */
 
 export class MessagesComponent {
