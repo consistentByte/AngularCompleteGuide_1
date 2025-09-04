@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { MessagesService } from '../messages.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-messages-list',
   standalone: true,
+  imports: [AsyncPipe],
   templateUrl: './messages-list.component.html',
   styleUrl: './messages-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -13,28 +15,32 @@ import { MessagesService } from '../messages.service';
   Since this component only needs to be triggered if its input value change and not otherwise,
   so we can use changeDetection as OnPush. to prevent unnecessary detection of this component otherwise.
 */
-export class MessagesListComponent implements OnInit {
+export class MessagesListComponent {
   // messages = input.required<string[]>();
 
   private messagesService = inject(MessagesService);
-  
-  private cdRef = inject(ChangeDetectorRef);
-  private destroyRef = inject(DestroyRef);
+  messages$ = this.messagesService.messages$;
+
+  // private cdRef = inject(ChangeDetectorRef);
   messages: string[] = [];
 
-  ngOnInit() {
-    //setting up subscription for change in messages  
-    const subscription = this.messagesService.messages$.subscribe((messages) => {
-      // running change detection manually if message list changes.
-      this.messages = messages;
-      this.cdRef.markForCheck();
-    })
-    // returns a Subscription value.
+  // ngOnInit() {
+  //   //setting up subscription for change in messages  
+  //   const subscription = this.messagesService.messages$.subscribe((messages) => {
+  //     // running change detection manually if message list changes.
+  //     this.messages = messages;
+  //     this.cdRef.markForCheck();
+  //   })
+  //   // returns a Subscription value.
 
-    this.destroyRef.onDestroy(()=> {
-      subscription.unsubscribe();
-    })
-  }
+  //   this.destroyRef.onDestroy(()=> {
+  //     subscription.unsubscribe();
+  //   })
+  // }
+
+  //alternate way to this without using signals,
+  // angular offers up a special pipe in the template to automatically set up and clean up subscription and read those values from the subject.
+  // async pipe made to use with Observables.
 
   get debugOutput() {
     console.log('[MessagesList] "debugOutput" binding re-evaluated.');
