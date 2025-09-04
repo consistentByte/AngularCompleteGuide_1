@@ -32,8 +32,8 @@ If we do not use signals everything above will be true, but if we use signals ev
 export class NewMessageComponent {
   // add = output<string>();
   private messageService = inject(MessagesService);
-  // enteredText = signal('');
-  enteredText = '';
+  enteredText = signal('');
+  // enteredText = '';
 
   get debugOutput() {
     console.log('[NewMessage] "debugOutput" binding re-evaluated.');
@@ -41,8 +41,9 @@ export class NewMessageComponent {
   }
 
   onSubmit() {
-    // this.add.emit(this.enteredText());
-    this.messageService.addMessage(this.enteredText);
-    this.enteredText ='';
+    // this.add.emit(this.enteredText);
+    this.messageService.addMessage(this.enteredText());
+    this.enteredText.set('');
+    // this.enteredText ='';
   }
 }

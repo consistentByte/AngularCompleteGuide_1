@@ -25,11 +25,13 @@ export class CounterComponent implements OnInit {
 
 
   count = signal(0);
+  // count = 0;
 
   ngOnInit(): void {
     // all bindings will run again, as zonejs sees expired timers as a change and angular runs change detection again.
       setTimeout(() => {
         this.count.set(0);
+        // this.count = 0;
       },4000);
     
     // To opt out of zonejs watch mode, and skip angular change detection for some code.  
@@ -50,9 +52,11 @@ export class CounterComponent implements OnInit {
 
   onDecrement() {
     this.count.update((prevCount) => prevCount - 1);
+    // this.count -=1
   }
 
   onIncrement() {
     this.count.update((prevCount) => prevCount + 1);
+    // this.count+=1;
   }
 }

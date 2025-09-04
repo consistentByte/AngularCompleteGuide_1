@@ -5,7 +5,7 @@ import { AsyncPipe } from '@angular/common';
 @Component({
   selector: 'app-messages-list',
   standalone: true,
-  imports: [AsyncPipe],
+  // imports: [AsyncPipe],
   templateUrl: './messages-list.component.html',
   styleUrl: './messages-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -19,10 +19,11 @@ export class MessagesListComponent {
   // messages = input.required<string[]>();
 
   private messagesService = inject(MessagesService);
-  messages$ = this.messagesService.messages$;
+  // messages$ = this.messagesService.messages$;
 
   // private cdRef = inject(ChangeDetectorRef);
-  messages: string[] = [];
+  // messages: string[] = [];
+  messages = this.messagesService.allMessages;
 
   // ngOnInit() {
   //   //setting up subscription for change in messages  
