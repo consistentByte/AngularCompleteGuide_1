@@ -1,5 +1,5 @@
 {
-  "name": "change-detection-deep-dive",
+  "name": "rxjs",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
