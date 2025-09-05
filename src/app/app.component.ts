@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
 import {interval, map} from 'rxjs';
 
 @Component({
@@ -7,8 +7,16 @@ import {interval, map} from 'rxjs';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
+  clickCount = signal(0);
 
   private destroyRef = inject(DestroyRef);
+
+  constructor() {
+    //Whenever a function in the effect callback updates it reruns,
+    effect(() => {
+      console.log(`Clicked button ${this.clickCount()} times`);
+    });
+  }
 
   ngOnInit(): void {
     // pipe method allows us to add, rxjs operators to emitted values.
@@ -27,4 +35,14 @@ export class AppComponent implements OnInit {
     })
 
   }
+
+  onClick() {
+    //Emitting new values by ourselves like subject.
+    this.clickCount.update(prevCount => prevCount+1);
+  }
 }
+
+/*
+Subjects are similar to observables but in subjects we also care about emitting those values manuallyP
+With observables we have a data source which emits data automatically.
+*/
