@@ -1,4 +1,4 @@
-import { Component, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
 import {interval, map} from 'rxjs';
 
 @Component({
@@ -8,6 +8,8 @@ import {interval, map} from 'rxjs';
 })
 export class AppComponent implements OnInit {
   clickCount = signal(0);
+  interval = signal(0);
+  doubleInterval = computed(() => this.interval()*2);
 
   private destroyRef = inject(DestroyRef);
 
@@ -19,6 +21,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    setInterval(() => {
+      this.interval.update(prevIntervalNumber => prevIntervalNumber + 1);
+    })
+
     // pipe method allows us to add, rxjs operators to emitted values.
     //map operator, converts the value emitted by the observable.
     // we can add multiple operators in pipe.
@@ -45,4 +52,12 @@ export class AppComponent implements OnInit {
 /*
 Subjects are similar to observables but in subjects we also care about emitting those values manuallyP
 With observables we have a data source which emits data automatically.
+
+Observables => Values over time,
+Signals => values in a container.
+
+Observable runs if atleast one listener, signals execute whether or not we listen/read its value.
+
+Observables are great for managing events and streamed data.
+Signals great for managing application state.
 */
