@@ -15,6 +15,7 @@ import { map } from 'rxjs';
 })
 export class AvailablePlacesComponent implements OnInit {
   places = signal<Place[] | undefined>(undefined);
+  isFetching = signal(false);
 
   //HttpClient is a service provided by angular to send request and receive response
   //We get NullInjectorError if we try to inject HttpClient service like this, since we never set up a provider for this service
@@ -23,6 +24,7 @@ export class AvailablePlacesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   ngOnInit() {
+    this.isFetching.set(true);
     //Since get method returns an observable we need to subscribe it in order to receive the response when emitted,
     //We also need to subscribe as the observable is not triggered until there is atleast one listener attached.
 
@@ -33,8 +35,12 @@ export class AvailablePlacesComponent implements OnInit {
     .subscribe({
       next: (places) => {
         this.places.set(places);
+      },
+      complete: () => {
+        this.isFetching.set(false);
       }
     });
+    // we can put is fetching to be false in next as well since this will only emit once but still its better to keep it in complete as we may sometime observe it differently.
 
     // Triggering next function with different data than actual response
     
