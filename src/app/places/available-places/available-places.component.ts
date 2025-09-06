@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 
 import { Place } from '../place.model';
 import { PlacesComponent } from '../places.component';
@@ -12,15 +12,29 @@ import { HttpClient } from '@angular/common/http';
   styleUrl: './available-places.component.css',
   imports: [PlacesComponent, PlacesContainerComponent],
 })
-export class AvailablePlacesComponent {
+export class AvailablePlacesComponent implements OnInit {
   places = signal<Place[] | undefined>(undefined);
 
   //HttpClient is a service provided by angular to send request and receive response
   //We get NullInjectorError if we try to inject HttpClient service like this, since we never set up a provider for this service
   private httpClient = inject(HttpClient);
-
   // constructor(private httpClient: HttpClient){}
+  private destroyRef = inject(DestroyRef);
 
+  ngOnInit() {
+    //Since get method returns an observable we need to subscribe it in order to receive the response when emitted,
+    //We also need to subscribe as the observable is not triggered until there is atleast one listener attached.
+
+    // pass the response type in <> of method for better ide support and check.
+    const subscription = this.httpClient.get<{places: Place[]}>('http://localhost:3000/places').subscribe({
+      next: (resData) => console.log(resData.places),
+    });
+
+    //Since httpClient method returned observables typically only emit once that is the response so we dont need to unsubscribe but we should still do as its a good practice.
+    this.destroyRef.onDestroy(()=>{
+      subscription.unsubscribe();
+    })
+  }
 }
 
 // The HTTP client is not available in all Angular applications by default. To provide it, you could add it to the providers array in your component.
