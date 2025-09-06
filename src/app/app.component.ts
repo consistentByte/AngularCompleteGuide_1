@@ -1,5 +1,5 @@
 import { Component, computed, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {interval, map} from 'rxjs';
 
 @Component({
@@ -10,8 +10,15 @@ import {interval, map} from 'rxjs';
 export class AppComponent implements OnInit {
   clickCount = signal(0);
   clickCount$ = toObservable(this.clickCount);
-  interval = signal(0);
-  doubleInterval = computed(() => this.interval()*2);
+
+  interval$ = interval(1000); // nothing will happen here, as we need to subscribe at least once, but here we don't have to subscribe, we have to convert the obs to a signal.
+  // We create a new signal from an observable which gets updated if an observabe value is emitted.
+  intervalSignal = toSignal(this.interval$, {
+    initialValue: 0,
+  });
+
+  // interval = signal(0);
+  // doubleInterval = computed(() => this.interval()*2);
 
   private destroyRef = inject(DestroyRef);
 
@@ -30,9 +37,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    setInterval(() => {
-      this.interval.update(prevIntervalNumber => prevIntervalNumber + 1);
-    })
+    // setInterval(() => {
+    //   this.interval.update(prevIntervalNumber => prevIntervalNumber + 1);
+    // })
 
     // pipe method allows us to add, rxjs operators to emitted values.
     //map operator, converts the value emitted by the observable.
@@ -72,6 +79,15 @@ Observable runs if atleast one listener, signals execute whether or not we liste
 Observables are great for managing events and streamed data.
 Signals great for managing application state.
 
+For conversion from signal to observable or vica versa, 
+we have to convert that observable to a Signal or set up a listener in a place where you could also inject a value. You can do this either when setting up a property or in the constructor.
+
 toObservable => we have converted the signal to an observable, or more precisely, created an extra observable based on that signal. 
 We can still update the original signal, and a new value will be emitted in the observable created with the help of toObservable.
+
+There was a lag in displaying intervalCount() in template that is because, observables have no initial value unlike signals.
+So angular initializes signal from toSignal with undefined until a value is emitted.
+Therefore, in the config object of toSignal function, we can set a initial value to the signal from toSignal until the value is emitteed by connected observable.
+
+toSignal does one other nice thing for you: it will automatically clean up the observable subscription if the component where you are using that Signal gets removed. So when using toSignal on an observable, you do not need to clean up that subscription or that observable manually.
 */
