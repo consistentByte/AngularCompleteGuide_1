@@ -4,6 +4,7 @@ import { Place } from '../place.model';
 import { PlacesComponent } from '../places.component';
 import { PlacesContainerComponent } from '../places-container/places-container.component';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-available-places',
@@ -26,8 +27,13 @@ export class AvailablePlacesComponent implements OnInit {
     //We also need to subscribe as the observable is not triggered until there is atleast one listener attached.
 
     // pass the response type in <> of method for better ide support and check.
-    const subscription = this.httpClient.get<{places: Place[]}>('http://localhost:3000/places').subscribe({
-      next: (resData) => console.log(resData.places),
+    const subscription = this.httpClient
+    .get<{places: Place[]}>('http://localhost:3000/places')
+    .pipe(map((resData) => resData.places))
+    .subscribe({
+      next: (places) => {
+        this.places.set(places);
+      }
     });
 
     // Triggering next function with different data than actual response
