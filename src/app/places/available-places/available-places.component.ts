@@ -30,6 +30,31 @@ export class AvailablePlacesComponent implements OnInit {
       next: (resData) => console.log(resData.places),
     });
 
+    // Triggering next function with different data than actual response
+    
+    // setting value of observe to 'response' we will get entire HttpResponse and not just the response value.
+    // Since there can be time when responseBody can be null.
+    // const subscription = this.httpClient.get<{places: Place[]}>('http://localhost:3000/places', {
+    //   observe: 'response'
+    // }).subscribe({
+    //   next: (res) => {
+    //     console.log(res),
+    //     console.log(res.body?.places);
+    //   },
+    // });
+
+    // other than observing response, we can also observe events,
+    // then next function will trigger multiple times since it will be triggered by various events in request-response lifecycle.
+    // Service observes what we tell it to observes and returns emits the observation response in next.
+    // this.httpClient.get('http://localhost:3000/places', {
+    //   observe: 'events'
+    // }).subscribe({
+    //   next: (res) => {
+    //     console.log(res)
+    //   },
+    // });
+
+
     //Since httpClient method returned observables typically only emit once that is the response so we dont need to unsubscribe but we should still do as its a good practice.
     this.destroyRef.onDestroy(()=>{
       subscription.unsubscribe();
