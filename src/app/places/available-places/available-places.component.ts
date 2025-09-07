@@ -89,6 +89,16 @@ export class AvailablePlacesComponent implements OnInit {
       subscription.unsubscribe();
     })
   }
+
+  // data is automatically converted to JSON.
+  onSelectPlace(selectedPlace: Place) {
+    this.httpClient.put('http://localhost:3000/user-places', {
+      placeId: selectedPlace.id,
+    }).subscribe({
+      next: (resData) => console.log(resData),
+    })
+  }
+ 
 }
 
 // The HTTP client is not available in all Angular applications by default. To provide it, you could add it to the providers array in your component.
