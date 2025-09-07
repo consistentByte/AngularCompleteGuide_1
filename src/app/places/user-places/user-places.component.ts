@@ -5,6 +5,7 @@ import { PlacesComponent } from '../places.component';
 import { Place } from '../place.model';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, throwError } from 'rxjs';
+import { PlacesService } from '../places.service';
 
 @Component({
   selector: 'app-user-places',
@@ -20,30 +21,24 @@ export class UserPlacesComponent implements OnInit {
 
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
+  private placesService = inject(PlacesService);
 
   ngOnInit(){
     this.isFetching.set(true);
 
-    const subscription = this.httpClient
-      .get<{places: Place[]}>('http://localhost:3000/user-places')
-      .pipe(
-        map((resData) => resData.places),
-        catchError((error) => {
-          console.log(error);
-          return throwError(()=> new Error('Something went wrong fetching your favorite places! Please try again later.'))
-        })
-      )
-      .subscribe({
-        next: (places) => {
-          this.places.set(places);
-        },
-        complete: () => {
-          this.isFetching.set(false);
-        },
-        error: (error: Error)=>{
-          this.error.set(error.message);
-        }
-      });
+    const subscription = this.placesService
+    .loadUserPlaces()
+    .subscribe({
+      next: (places) => {
+        this.places.set(places);
+      },
+      complete: () => {
+        this.isFetching.set(false);
+      },
+      error: (error: Error)=>{
+        this.error.set(error.message);
+      }
+    });
     this.destroyRef.onDestroy(()=>{
       subscription.unsubscribe();
     })

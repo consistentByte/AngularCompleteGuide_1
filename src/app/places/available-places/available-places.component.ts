@@ -5,6 +5,7 @@ import { PlacesComponent } from '../places.component';
 import { PlacesContainerComponent } from '../places-container/places-container.component';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, throwError } from 'rxjs';
+import { PlacesService } from '../places.service';
 
 @Component({
   selector: 'app-available-places',
@@ -23,6 +24,7 @@ export class AvailablePlacesComponent implements OnInit {
   private httpClient = inject(HttpClient);
   // constructor(private httpClient: HttpClient){}
   private destroyRef = inject(DestroyRef);
+  private placesService = inject(PlacesService);
 
   ngOnInit() {
     this.isFetching.set(true);
@@ -35,15 +37,8 @@ export class AvailablePlacesComponent implements OnInit {
     //throwError is like interval which generates a value which is of type error.
     //Removing the complexity from subscribe method and using catchError for implementing separate logic to handle error, we don't need it as it can handle it via error method but it can help.
     
-    const subscription = this.httpClient
-    .get<{places: Place[]}>('http://localhost:3000/places')
-    .pipe(
-      map((resData) => resData.places),
-      catchError((error) => {
-        console.log(error);
-        return throwError(()=> new Error('Something went wrong fetching the available places! Please try again later.'))
-      })
-    )
+    const subscription = this.placesService
+    .loadAvailablePlaces()
     .subscribe({
       next: (places) => {
         this.places.set(places);
