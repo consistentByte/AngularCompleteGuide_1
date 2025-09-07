@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { afterNextRender, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 
 import { PlacesContainerComponent } from '../places-container/places-container.component';
 import { PlacesComponent } from '../places.component';
@@ -21,7 +21,7 @@ export class UserPlacesComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private placesService = inject(PlacesService);
   places = this.placesService.loadedUserPlaces;
-  
+
   ngOnInit(){
     this.isFetching.set(true);
 
@@ -36,6 +36,15 @@ export class UserPlacesComponent implements OnInit {
       }
     });
     this.destroyRef.onDestroy(()=>{
+      subscription.unsubscribe();
+    })
+  }
+
+  onRemovePlace(place: Place) {
+    const subscription = this.placesService.removeUserPlace(place)
+    .subscribe();
+
+    this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     })
   }
