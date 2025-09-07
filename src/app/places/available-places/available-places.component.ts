@@ -87,10 +87,12 @@ export class AvailablePlacesComponent implements OnInit {
 
   // data is automatically converted to JSON.
   onSelectPlace(selectedPlace: Place) {
-    this.httpClient.put('http://localhost:3000/user-places', {
-      placeId: selectedPlace.id,
-    }).subscribe({
+    const subscription = this.placesService.addPlaceToUserPlaces(selectedPlace).subscribe({
       next: (resData) => console.log(resData),
+    });
+
+    this.destroyRef.onDestroy(()=>{
+      subscription.unsubscribe();
     })
   }
  

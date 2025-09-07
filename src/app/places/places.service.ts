@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, tap, throwError } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+providedIn: 'root',
 })
 export class PlacesService {
   private httpClient = inject(HttpClient);
@@ -27,9 +27,11 @@ export class PlacesService {
     }))
   }
 
-  addPlaceToUserPlaces(placeId: string) {
+  addPlaceToUserPlaces(place: Place) {
+    this.userPlaces.update(prevPlaces => [...prevPlaces, place]);
+
     return this.httpClient.put('http://localhost:3000/user-places', {
-      placeId
+      placeId: place.id
     });
   }
 
