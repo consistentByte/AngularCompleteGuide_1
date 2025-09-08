@@ -1,18 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { AvailablePlacesComponent } from './places/available-places/available-places.component';
-import { UserPlacesComponent } from './places/user-places/user-places.component';
-import { ErrorService } from './shared/error.service';
-import { ErrorModalComponent } from './shared/modal/error-modal/error-modal.component';
+import { LoginComponent } from './auth/login/login.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
-  imports: [AvailablePlacesComponent, UserPlacesComponent, ErrorModalComponent],
+  imports: [LoginComponent],
 })
-export class AppComponent {
-  private errorService = inject(ErrorService);
-  error = this.errorService.error;
-}
+export class AppComponent {}
