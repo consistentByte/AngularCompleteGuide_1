@@ -1,7 +1,8 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 
 import { AppComponent } from './app/app.component';
-import { HttpHandler, HttpHandlerFn, HttpRequest, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HttpEventType, HttpHandler, HttpHandlerFn, HttpRequest, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { tap } from 'rxjs';
 
 // unknown => can be any type of req with any type of body, generic shows type of request body.
 function loggingInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn) {
@@ -14,7 +15,17 @@ function loggingInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn) 
     console.log(request);
     // pass intercepted req to next function
     // return next(req);
-    return next(request);
+    // next is Observable of type HttpEvent, so we can use pipe and use all parameters like map and etc. cannot add subscribe as it will make the end of this observable and other parts of app wont be able to use it.
+    return next(request).pipe(tap({
+        next: (event) => {
+            // we get a value of type event that is emitted.
+            if(event.type === HttpEventType.Response) {
+                console.log('Incoming Response');
+                console.log(event.status); // response status
+                console.log(event.body); // response body
+            }
+        }
+    }))
 }
 
 bootstrapApplication(AppComponent, {
