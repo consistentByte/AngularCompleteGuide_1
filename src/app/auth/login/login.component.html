@@ -5,7 +5,15 @@
   <div class="control-row">
     <div class="control no-margin">
       <label for="email">Email</label>
-      <input id="email" type="email" name="email" ngModel email required />
+      <input
+        id="email"
+        type="email"
+        name="email"
+        ngModel
+        email
+        required
+        #emailCtrl="ngModel"
+      />
     </div>
 
     <div class="control no-margin">
@@ -17,11 +25,18 @@
         ngModel
         minlength="6"
         required
+        #passwordCtrl="ngModel"
       />
     </div>
 
     <button type="submit" class="button">Login</button>
   </div>
+
+  <!-- @if(form.form.controls['email'].touched &&
+  form.form.controls['password'].touched && form.form.invalid){ -->
+  @if(emailCtrl.touched && passwordCtrl.touched && form.form.invalid) {
+  <p class="control-error">Invalid values detected. Please check your input.</p>
+  }
 </form>
 <!-- Template driven form as the setup we did is in the template -->
 <!-- End goal is to make angular aware of the form and its inputs. -->
@@ -132,4 +147,44 @@ This is because required is essentially registered as a directive in angular.
 email is also a directive registered on angular to do basic validation whether value is email
 similarly minlength, maxlength,and pattern are also basic directives used to do respective validation checks.
 
+-->
+
+<!-- 
+
+
+form.form.controls['email'].touched &&
+  form.form.controls['password'].touched && form.form.invalid 
+  
+this check can be used to check if both form inputs are touched and still invalid.
+  But its too verbose for use in template.
+
+
+What does #emailCtrl="ngModel" mean?
+
+Here, you’re creating a template reference variable named emailCtrl.
+
+By writing ="ngModel", you’re telling Angular:
+
+“Instead of pointing to the raw HTML element, give me the NgModel directive instance applied on this element.”
+
+So:
+
+<input id="email" type="email" name="email" ngModel #emailCtrl="ngModel" />
+
+
+emailCtrl now refers to the NgModel instance, which exposes control-specific properties, like:
+
+emailCtrl.value → current input value
+
+emailCtrl.valid → whether the field is valid
+
+emailCtrl.touched → if the user has interacted
+
+emailCtrl.dirty → if the value has changed
+
+
+So basically #emailCtrl="ngModel" gives you direct access to the state of this input control.
+Without the "ngModel" part: #emailCtrl would just point to the raw <input> DOM element
+
+#emailCtrl="ngModel" is Angular’s way of letting you inspect and react to the validation state/value of a single field directly inside the template.
 -->
