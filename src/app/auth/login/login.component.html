@@ -5,12 +5,19 @@
   <div class="control-row">
     <div class="control no-margin">
       <label for="email">Email</label>
-      <input id="email" type="email" name="email" ngModel />
+      <input id="email" type="email" name="email" ngModel email required />
     </div>
 
     <div class="control no-margin">
       <label for="password">Password</label>
-      <input id="password" type="password" name="password" ngModel />
+      <input
+        id="password"
+        type="password"
+        name="password"
+        ngModel
+        minlength="6"
+        required
+      />
     </div>
 
     <button type="submit" class="button">Login</button>
@@ -115,4 +122,14 @@ So name is basically the key under which the control is stored in the form’s i
 ngModel (without two-way binding) → just registers the field with Angular’s form model.
 
 name → mandatory for Angular to include the control in form.value.
+
+---------------------------------------------------------------------------
+
+Using required lets us browser do some validation 
+but when using required with an element registered with ngModel, angular takes over and disable browser built-in validation and instead validation it internally.
+This is because required is essentially registered as a directive in angular.
+
+email is also a directive registered on angular to do basic validation whether value is email
+similarly minlength, maxlength,and pattern are also basic directives used to do respective validation checks.
+
 -->
