@@ -1,4 +1,5 @@
-<form>
+<!-- To get acess to this form, either use ViewChild or pass it via method when form is submitted -->
+<form #form="ngForm" (ngSubmit)="onSubmit(form)">
   <h2>Login</h2>
 
   <div class="control-row">
@@ -12,13 +13,106 @@
       <input id="password" type="password" name="password" ngModel />
     </div>
 
-    <button class="button">Login</button>
+    <button type="submit" class="button">Login</button>
   </div>
 </form>
+<!-- Template driven form as the setup we did is in the template -->
 <!-- End goal is to make angular aware of the form and its inputs. -->
 <!-- using ngModel without two-way binding.
  The ngModel directive registers an html element with Angular. By registering the element, Angular becomes aware of it and manages it behind the scenes. This also allows you to access the element programmatically.
  
 If ngModel is used within a form tag, either the name attribute must be set or the form.
 name is internally used by angular to register the element and get managed by angular.
+
+However, currently, there is no way to access this form that is handled by Angular, nor to get hold of the input elements registered with Angular.
+So to access the form (HTMLFormElement from DOM) we can add a template variable to the form.
+
+Here we want to get the formobject created by angular and managed behind the scenes.
+
+
+1 ] #form (without ="ngForm")
+
+This gives you the native HTMLFormElement (basically what document.querySelector('form') would return).
+
+You can still access raw properties:
+
+form.action
+
+form.submit()
+
+form.elements
+
+But you don’t get Angular’s validation state or reactive tracking.
+
+2 ] #form="ngForm"
+
+This doesn’t give you the raw DOM element.
+
+It gives you the Angular NgForm directive instance that Angular attaches to the <form>.
+
+That object has Angular goodies like:
+
+form.value → an object with all registered control values.
+
+form.valid / form.invalid → form-wide validation state.
+
+form.controls → a map of individual controls (email, etc.).
+
+Why Angular prefers ngForm
+
+If you just grab the DOM object, you’re bypassing Angular’s entire form management system.
+
+No automatic validation states.
+
+No control grouping.
+
+No form.value snapshot.
+
+With ngForm, Angular stays in sync between template, model, and validation, so you’re working with Angular’s ecosystem rather than the raw browser form.
+
+Why using ngModel without two way binding?
+When you write:
+
+<input id="email" type="email" name="email" ngModel />
+
+
+ngModel registers this input as a form control inside the NgForm.
+
+Without [()] (banana in a box), you’re not doing two-way binding with a component property.
+
+Instead, Angular just tracks it inside the form and includes it in form.value.
+
+Example:
+
+onSubmit(form: NgForm) {
+  console.log(form.value.email); // works even without [(ngModel)]
+}
+
+
+If you wanted to sync this input directly to a component property, then you’d use:
+
+<input [(ngModel)]="userEmail" name="email">
+
+
+So here, since the goal is form-driven data collection (not syncing to a property), one-way ngModel (registration only) is enough.
+
+Why is the name attribute important here?
+
+In template-driven forms, name is how Angular identifies and registers controls inside the form.
+
+Without name, Angular will ignore the input—it won’t appear in form.value or in validation checks.
+
+Example:
+
+<input id="email" type="email" ngModel />  Won’t be part of form.value 
+<input id="email" type="email" name="email" ngModel />  Will be part of form.value.email 
+
+
+So name is basically the key under which the control is stored in the form’s internal structure.
+
+#form="ngForm" → gets Angular’s form API, not just the HTML element.
+
+ngModel (without two-way binding) → just registers the field with Angular’s form model.
+
+name → mandatory for Angular to include the control in form.value.
 -->
