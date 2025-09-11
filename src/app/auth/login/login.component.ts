@@ -23,6 +23,23 @@ export class LoginComponent {
   constructor() {
     // Using afterNextRender since we are using template driven form, so after the template is initialized, we need to run the form.
     afterNextRender(() => {
+      const savedForm = window.localStorage.getItem('saved-login-form');
+      if (savedForm) {
+        const loadedFormData = JSON.parse(savedForm);
+        const savedEmail = loadedFormData.email;
+        // this.form().setValue({
+        //   email: savedEmail,
+        //   password: '',
+        // })
+        // TO access only 1 field
+        // this.form().controls['email'].setValue(savedEmail);
+        //We get error on this, form is initialized but control objects are not fully initialized yet.
+        //For template driven form, a workaround would be to use, setTimeout, as after a tick, form will be fully initialized along with controls.
+        setTimeout(() => {
+          this.form().controls['email'].setValue(savedEmail);
+        }, 1);
+      }
+
       // values changes on every keystroke
       // next runs on every new value emitted
       const subscription = this.form()
