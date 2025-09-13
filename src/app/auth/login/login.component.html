@@ -1,17 +1,31 @@
-<form>
+<form [formGroup]="form">
   <h2>Login</h2>
 
   <div class="control-row">
     <div class="control no-margin">
       <label for="email">Email</label>
-      <input id="email" type="email" />
+      <input id="email" type="email" [formControl]="form.controls.email" />
     </div>
 
     <div class="control no-margin">
       <label for="password">Password</label>
-      <input id="password" type="password" />
+      <input id="password" type="password" formControlName="password" />
     </div>
 
     <button class="button">Login</button>
   </div>
 </form>
+
+<!-- 
+ <input id="email" type="email" [formControl]="form.controls.email"/> 
+ This is how we bind our html element to a form control.
+
+ Alternate shorter way: using formControlName
+  <input id="password" type="password" formControlName="password" />
+  
+  We get error until we tell that form belongs to which form group.
+  <form [formGroup]="form">
+
+  In template for reactive forms, we just to the linking stuff, all the setup work was done in ts file.
+
+-->
