@@ -1,10 +1,22 @@
 import { Component } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+
+function mustContainQuestionMark(control: AbstractControl) {
+  if (control.value.includes('?')) {
+    return null;
+  }
+
+  // its a common convention to have a descriptive property about error.
+  return {
+    doesNotContainQuestionMark: true,
+  };
+}
 
 @Component({
   selector: 'app-login',
@@ -19,7 +31,11 @@ export class LoginComponent {
       validators: [Validators.email, Validators.required],
     }), // validators can be in Array or in a config object.
     password: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(6)],
+      validators: [
+        Validators.required,
+        Validators.minLength(6), // factory function that produces a validator function thats why called.
+        mustContainQuestionMark, //password must have a ?, we only pass pointer of it, and not simply call it.
+      ],
     }),
   });
 
@@ -57,4 +73,10 @@ export class LoginComponent {
   We can add validators where we initialize our form group and also dynamically.
 
   validator is just a function.
-*/
+  In the function we automatically get the control, which returns null or undefined if the value is valid or return anything else, e.g. object with details about the error.
+
+  email: new FormControl('', {
+      validators: [Validators.email, Validators.required, (control) => {
+        return null;
+      }],
+  */
