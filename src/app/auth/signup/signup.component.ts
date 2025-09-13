@@ -15,15 +15,45 @@ import {
 })
 export class SignupComponent {
   form = new FormGroup({
-    email: new FormControl('', [Validators.required]),
-    password: new FormControl('', [
-      Validators.required,
-      Validators.minLength(6),
-    ]),
+    email: new FormControl('', {
+      validators: [Validators.required],
+    }),
+    password: new FormControl('', {
+      validators: [Validators.required, Validators.minLength(6)],
+    }),
+    confirmPassword: new FormControl('', {
+      validators: [Validators.required, Validators.minLength(6)],
+    }),
+    firstName: new FormControl('', {
+      validators: [Validators.required],
+    }),
+    lastName: new FormControl('', {
+      validators: [Validators.required],
+    }),
+    street: new FormControl('', {
+      validators: [Validators.required],
+    }),
+    number: new FormControl('', {
+      validators: [Validators.required],
+    }),
+    postalCode: new FormControl('', {
+      validators: [Validators.required],
+    }),
+    city: new FormControl('', {
+      validators: [Validators.required],
+    }),
+    role: new FormControl<
+      'student' | 'teacher' | 'employee' | 'founder' | 'other'
+    >('student', {
+      validators: [Validators.required],
+    }),
+    agree: new FormControl(false, {
+      validators: [Validators.required],
+    }),
   });
 
   onSubmit() {
-    console.log(this.form.value.email, this.form.value.password);
+    console.log(this.form);
   }
 
   onReset() {
@@ -32,3 +62,10 @@ export class SignupComponent {
     this.form.reset();
   }
 }
+
+/*
+A dropdown is also a input, its just that user cannot add a value
+Since form control is a generic type so we can pass which kind of values will it manage,
+so in case of dropdown values, we can pass values, that we added our options for.
+
+*/
