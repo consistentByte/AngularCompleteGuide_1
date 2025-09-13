@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -6,7 +6,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { of } from 'rxjs';
+import { debounceTime, of } from 'rxjs';
+
+// This code is loaded when file is loaded in browser, This client-side pre-rendering is possible since we use reactive forms.
+let initialEmailValue = '';
+const savedForm = window.localStorage.getItem('saved-login-form');
+if (savedForm) {
+  const loadedForm = JSON.parse(savedForm);
+  initialEmailValue = loadedForm.email;
+}
 
 function mustContainQuestionMark(control: AbstractControl) {
   if (control.value.includes('?')) {
@@ -38,9 +46,10 @@ function emailIsUnique(control: AbstractControl) {
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+  destroyRef = inject(DestroyRef);
   form = new FormGroup({
-    email: new FormControl('', {
+    email: new FormControl(initialEmailValue, {
       validators: [Validators.email, Validators.required],
       asyncValidators: [emailIsUnique],
     }), // validators can be in Array or in a config object.
@@ -52,6 +61,32 @@ export class LoginComponent {
       ],
     }),
   });
+
+  ngOnInit() {
+    /*
+    const savedForm = window.localStorage.getItem('saved-login-form');
+    if (savedForm) {
+      const loadedForm = JSON.parse(savedForm);
+      // patchValue: to partially update value of form, only the passed control will receive the new value and all other will remain untouched.
+      this.form.patchValue({
+        email: loadedForm.email,
+      });
+    }
+*/
+    // here we can use ngOnInit instead of afterNextRender, since we create our form in ts file, so we dont wait for the template to load.
+    // no ? added as we are initializing form in code, so ts knows it will be initialized.
+    const subs = this.form.valueChanges.pipe(debounceTime(500)).subscribe({
+      next: (value) => {
+        window.localStorage.setItem(
+          'saved-login-form',
+          JSON.stringify({ email: value.email })
+        );
+      },
+    });
+    this.destroyRef.onDestroy(() => {
+      subs.unsubscribe();
+    });
+  }
 
   get emailIsInvalid() {
     return (
@@ -99,4 +134,7 @@ export class LoginComponent {
   yield null if ok else an error object.
 
 
+  Since using Reactive form we can load and populate our form in different way:
+  we can load this component from local storage right when this file is about to be executed, so totally detached to our component lifecycle.
+  => Outside of our component code.
 */
