@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {
+  FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -51,6 +52,11 @@ export class SignupComponent {
     >('student', {
       validators: [Validators.required],
     }),
+    source: new FormArray([
+      new FormControl(false),
+      new FormControl(false),
+      new FormControl(false),
+    ]),
     agree: new FormControl(false, {
       validators: [Validators.required],
     }),
@@ -83,4 +89,22 @@ this is done, by passing a form group directive to a shared parent.'
   or
   <div class="control-row" formGroupName="passwords">
   formGroupName is a property provided by angular to specify nested form groups easily.
+
+  How did you find us is a list of values that can be checked or unchecked.
+
+Another kind of formGroup =>FormArray
+    source: new FormArray([
+      new FormControl(false),
+      new FormControl(false),
+      new FormControl(false),
+    ]),
+
+    we do not add name to these controls, and in future if we have to add more simply add more, its easy.
+  connecting formArray to template:
+    <fieldset formArrayName="source">
+  connecting controls in formArray to template:
+    incrementing numbers from 0 to formControlName.
+    e.g. formControlName="0"
+
+  in form formGroup now, source is an array : [false, false, false]
 */
