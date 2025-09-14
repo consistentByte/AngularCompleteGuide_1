@@ -1,11 +1,43 @@
 import { Component } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+
+function equalValuesOld(control: AbstractControl) {
+  // const password = control.controls.password
+  // if no password control found then null else value
+  const password = control.get('password')?.value;
+  const confirmPassword = control.get('confirmPassword')?.value;
+
+  if (password === confirmPassword) {
+    return null;
+  }
+  return {
+    passwordsNotEqual: true,
+  };
+}
+
+//Create a factory function that is a generic function that produces validator function based on input.
+// make this function return a function, where the returned function will receive the abstract control and execute the code
+function equalValues(control1: string, control2: string) {
+  return (control: AbstractControl) => {
+    const val1 = control.get(control1)?.value;
+    const val2 = control.get(control2)?.value;
+
+    if (val1 === val2) {
+      return null;
+    }
+    return {
+      valuesNotEqual: true,
+    };
+  };
+}
+// Now we can use this factory function to compare any two form controls
 
 @Component({
   selector: 'app-signup',
@@ -19,14 +51,20 @@ export class SignupComponent {
     email: new FormControl('', {
       validators: [Validators.required],
     }),
-    passwords: new FormGroup({
-      password: new FormControl('', {
-        validators: [Validators.required, Validators.minLength(6)],
-      }),
-      confirmPassword: new FormControl('', {
-        validators: [Validators.required, Validators.minLength(6)],
-      }),
-    }),
+    passwords: new FormGroup(
+      {
+        password: new FormControl('', {
+          validators: [Validators.required, Validators.minLength(6)],
+        }),
+        confirmPassword: new FormControl('', {
+          validators: [Validators.required, Validators.minLength(6)],
+        }),
+      },
+      {
+        // validators: [equalValuesOld],
+        validators: [equalValues('password', 'confirmPassword')],
+      }
+    ),
     firstName: new FormControl('', {
       validators: [Validators.required],
     }),
@@ -110,4 +148,32 @@ Another kind of formGroup =>FormArray
     e.g. formControlName="0"
 
   in form formGroup now, source is an array : [false, false, false]
+
+  FormGroup is also a form control, its just that its a special kind of form control that consists of multiple controls so,
+  formGroups also have a second parameter where we pass a config object to add formGroup validators, async validators etc.
+
+  we should have access password, via control.controls.password, as ts doesnt know what that abstract control will be,
+  It doesnt know that the control is a formGroup with nested controls for password and confirmPassword.
+  We know that but ts doens't allow.
+  But all the control objects have a 'get' method, in which we pass the name of control and it will search for that control. 
+
+   passwords: new FormGroup(
+      {
+        password: new FormControl('', {
+          validators: [Validators.required, Validators.minLength(6)],
+        }),
+        confirmPassword: new FormControl('', {
+          validators: [Validators.required, Validators.minLength(6)],
+        }),
+      },
+      {
+        validators: [equalValues],
+      }
+    ),
+  No error to be seen as the angular did added the validation classes like ng-pristine, ng-touched and ng-dirty on validation failure but they are added to the div or the parent element not the actual controls.
+  on which the nested form group passwords was added.
+
+  We can make our equalValues validator generic, as it for now only look for a password and a confirm password
+
+  Factory function is one that produces a validator function based on the input.
 */
