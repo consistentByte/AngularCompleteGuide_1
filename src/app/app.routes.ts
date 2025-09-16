@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { TasksComponent } from './tasks/tasks.component';
 import { NoTaskComponent } from './tasks/no-task/no-task.component';
+import { UserTasksComponent } from './users/user-tasks/user-tasks.component';
 
 export const routes: Routes = [
   {
@@ -8,9 +9,13 @@ export const routes: Routes = [
     component: NoTaskComponent,
   },
   {
-    path: 'tasks', // <domain>/tasks
-    component: TasksComponent,
+    path: 'users/:userId', // <domain>/users/<uid>, :___ => dynamic part
+    component: UserTasksComponent,
   },
+  // {
+  //   path: 'tasks', // <domain>/tasks
+  //   component: TasksComponent,
+  // },
 ];
 
 /*

@@ -1,7 +1,9 @@
 <div>
   <!-- <a href="/tasks"> -->
   <!-- <a routerLink='/tasks' [class.selected]=""> -->
-  <a routerLink="/tasks" routerLinkActive="selected">
+  <!-- <a [routerLink]="'/users/' + user().id"  -->
+  <a [routerLink]="['/users', user().id]"
+    routerLinkActive="selected">
     <img [src]="imagePath()" [alt]="user().name" />
     <span>{{ user().name }}</span>
   </a>
@@ -27,4 +29,17 @@
   routerLinkActive simply checks if the current route starts with the value of routerLink.
 
   If you have multiple links that all point to /tasks, then all of them will be marked active when you are at /tasks, because Angular sees that the router URL matches each one’s link.
+  
+  Since we need to set up routerLink value according to user, we need property binding.
+  
+  Two basic ways to setup links dynamically,
+  1]  <a [routerLink]="'/users/' + user().id" 
+  2] Using and array, with different array elements
+      <a [routerLink]="['/users', user().id]"
+
+  After this above issue of all links being active is solved, 
+    since now all routerLinks/User Item has a different path because of including dynamic uid.
+
+  Previously all links became active since all routerLinks had same paths.
+    
   -->
