@@ -1,6 +1,20 @@
 <div>
-  <a>
+  <!-- <a href="/tasks"> -->
+  <a routerLink='/tasks'>
     <img [src]="imagePath()" [alt]="user().name" />
     <span>{{ user().name }}</span>
   </a>
 </div>
+
+<!-- 
+  <a href="/tasks">
+  on every click entire page is loaded again. We are in a single page application so only the required component must be updated.
+  So this is not a preffered way to load our routes.
+  use routerLink directive instead.
+
+  Angular intercepts the browser's default behavior, preventing the refetching of the HTML document. 
+  It then examines the path, consults the route configuration, and loads the appropriate component without leaving the single page application context. 
+  This is the purpose of RouterLink.
+  <a routerLink="/tasks">
+  But like this it won't work, since routerLink is a directive from angular and without importing it in component, it wont be detected.
+-->
