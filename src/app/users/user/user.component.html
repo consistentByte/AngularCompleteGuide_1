@@ -1,6 +1,7 @@
 <div>
   <!-- <a href="/tasks"> -->
-  <a routerLink='/tasks'>
+  <!-- <a routerLink='/tasks' [class.selected]=""> -->
+  <a routerLink="/tasks" routerLinkActive="selected">
     <img [src]="imagePath()" [alt]="user().name" />
     <span>{{ user().name }}</span>
   </a>
@@ -17,4 +18,13 @@
   This is the purpose of RouterLink.
   <a routerLink="/tasks">
   But like this it won't work, since routerLink is a directive from angular and without importing it in component, it wont be detected.
--->
+
+  To apply a class when the link is active,
+  we can use [class.selected] or put classes conditionally based on a condition,
+  alternate is routerLinkActive="", to apply a class when this is the element that led to the active route being loaded.
+
+  After adding and saving this directive, all user links are marked as active. 
+  routerLinkActive simply checks if the current route starts with the value of routerLink.
+
+  If you have multiple links that all point to /tasks, then all of them will be marked active when you are at /tasks, because Angular sees that the router URL matches each one’s link.
+  -->
