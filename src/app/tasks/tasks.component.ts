@@ -1,9 +1,16 @@
-import { Component, computed, inject, input } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  input,
+  OnInit,
+} from '@angular/core';
 
 import { TaskComponent } from './task/task.component';
 import { Task } from './task/task.model';
 import { TasksService } from './tasks.service';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tasks',
@@ -12,15 +19,28 @@ import { RouterLink } from '@angular/router';
   styleUrl: './tasks.component.css',
   imports: [TaskComponent, RouterLink],
 })
-export class TasksComponent {
+export class TasksComponent implements OnInit {
   userId = input.required<string>();
   private taskService = inject(TasksService);
-  order = input<'asc' | 'desc'>(); // getting queryParams using input approach. This works since the setup for getting url info like path param or queryParam was already done before.
+  private activatedRoute = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef);
+
+  // order = input<'asc' | 'desc'>(); // getting queryParams using input approach. This works since the setup for getting url info like path param or queryParam was already done before.
   // not required since query params are optional.
+  order?: 'asc' | 'desc';
 
   userTasks = computed(() =>
     this.taskService.allTasks().filter((task) => task.userId === this.userId())
   );
+
+  ngOnInit() {
+    const sub = this.activatedRoute.queryParams.subscribe({
+      next: (params) => (this.order = params['order']),
+    });
+    this.destroyRef.onDestroy(() => {
+      sub.unsubscribe();
+    });
+  }
 }
 
 /*
@@ -36,5 +56,6 @@ export class TasksComponent {
         In withRouterConfig we can pass a config object and set paramsInheritanceStrategy: 'always'
       After this the dynamic path param values are injected into child routes.
 
+  We can use input or activated route approach to fetch the queryparams as well.
 
 */
