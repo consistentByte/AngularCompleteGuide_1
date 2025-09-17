@@ -4,7 +4,7 @@ import { NoTaskComponent } from './tasks/no-task/no-task.component';
 import { UserTasksComponent } from './users/user-tasks/user-tasks.component';
 import { NewTaskComponent } from './tasks/new-task/new-task.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
-
+import { routes as userRoutes } from './users/user.routes';
 export const routes: Routes = [
   {
     path: '', // <domain>
@@ -15,25 +15,7 @@ export const routes: Routes = [
   {
     path: 'users/:userId', // <domain>/users/<uid>, :___ => dynamic part
     component: UserTasksComponent,
-    children: [
-      {
-        path: '', // <domain>/users/<uid>, adding default behavior that if no thing is added after parent path, redirect
-        redirectTo: 'tasks',
-        pathMatch: 'prefix', // when adding redirectTo property we must add this pathMatch key to (prefix or full) to tell angular how to parse the redirect path.
-      }, // putting pathMatch as prefix won't matter here, as we are dealing with nested child route here.
-      {
-        path: 'tasks', // <domain>/users/<uid>/tasks
-        component: TasksComponent,
-      },
-      {
-        path: 'tasks/new',
-        component: NewTaskComponent,
-      },
-      // {
-      //   path: '**',
-      //   component: NotFoundComponent, // fallback component
-      // },
-    ],
+    children: userRoutes,
   },
   {
     path: '**',
