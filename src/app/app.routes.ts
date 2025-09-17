@@ -3,6 +3,7 @@ import { TasksComponent } from './tasks/tasks.component';
 import { NoTaskComponent } from './tasks/no-task/no-task.component';
 import { UserTasksComponent } from './users/user-tasks/user-tasks.component';
 import { NewTaskComponent } from './tasks/new-task/new-task.component';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -21,7 +22,15 @@ export const routes: Routes = [
         path: 'tasks/new',
         component: NewTaskComponent,
       },
+      // {
+      //   path: '**',
+      //   component: NotFoundComponent, // fallback component
+      // },
     ],
+  },
+  {
+    path: '**',
+    component: NotFoundComponent, // fallback component
   },
   // {
   //   path: 'tasks', // <domain>/tasks
@@ -39,4 +48,6 @@ export const routes: Routes = [
   the router-outlet in app.comp is for main routes.
   Child routes need a separate router-outlet in a component of which they are child of.
   So in above case a router-outlet must be added in UserTasksComponent.
+
+  catchAll or "**" route that is put at last in routes list, which becomes active if no other route matches the path.
 */
