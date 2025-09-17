@@ -1,3 +1,9 @@
+<p>
+  <!-- routerLink="./" this syntax tells angular that we want to stay on the same page -->
+  <a routerLink="./" [queryParams]="{order: 'asc'}"> 
+    Sort Ascending / Descending
+  </a>
+</p>
 <ul>
   @for (task of userTasks(); track task.id) {
   <li>
@@ -7,3 +13,13 @@
   <p>There are no tasks yet. Start adding some!</p>
   }
 </ul>
+
+<!-- 
+  a routerLink="./" queryParams=""
+  
+  routerLink="./" this syntax tells angular that we want to stay on the same page
+  queryParams: adding queryParams via queryParams property of routerLink directive.
+
+Using query parameters instead of signals for ascending or descending sort as
+  we get a shareable link.
+-->
