@@ -30,6 +30,9 @@ export class UserTasksComponent implements OnInit {
   ngOnInit() {
     // Console will load only once.
     console.log(this.activateRoute);
+    console.log(this.activateRoute.snapshot);
+    console.log(this.activateRoute.snapshot.params); // this is not re-executed as the component changes as ngOnInit is not re-executed thats why we setup a subscription.
+    // if a component doesnt need to be re-executed like our case then we can use direct values from snapshot but if the use case is similar we must rely on paramMap observable or input
     const subs = this.activateRoute.paramMap.subscribe({
       next: (paramMap) => {
         console.log(paramMap);
@@ -69,4 +72,6 @@ export class UserTasksComponent implements OnInit {
     Why it needed to be a subscription for reading dynamic route?
       This component will be re-used, therefore ngOnInit will not be executed again, hence a subscription is needed to be notified about changes.
       since the only thing that will change is the userId in the url, so we're now notified when that happens.
+
+    We can also use snapshot property of ActivatedRoute which provides us with same values not as observables or subjects but as actual values.
 */
