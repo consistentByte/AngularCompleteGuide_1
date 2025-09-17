@@ -1,7 +1,10 @@
 <p>
   <!-- routerLink="./" this syntax tells angular that we want to stay on the same page -->
-  <a routerLink="./" [queryParams]="{order: 'asc'}"> 
-    Sort Ascending / Descending
+  <a
+    routerLink="./"
+    [queryParams]="{ order: order() === 'asc' ? 'desc' : 'asc' }"
+  >
+    Sort {{ order() === "asc" ? "Descending" : "Ascending" }}
   </a>
 </p>
 <ul>

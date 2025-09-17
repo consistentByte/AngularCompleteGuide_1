@@ -15,6 +15,8 @@ import { RouterLink } from '@angular/router';
 export class TasksComponent {
   userId = input.required<string>();
   private taskService = inject(TasksService);
+  order = input<'asc' | 'desc'>(); // getting queryParams using input approach. This works since the setup for getting url info like path param or queryParam was already done before.
+  // not required since query params are optional.
 
   userTasks = computed(() =>
     this.taskService.allTasks().filter((task) => task.userId === this.userId())
