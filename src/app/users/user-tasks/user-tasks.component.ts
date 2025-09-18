@@ -17,8 +17,9 @@ import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './user-tasks.component.css',
 })
 export class UserTasksComponent implements OnInit {
-  userId = input.required<string>();
+  // userId = input.required<string>();
   userName = '';
+  message = input.required<string>();
   private usersService = inject(UsersService);
   private activateRoute = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
@@ -28,6 +29,8 @@ export class UserTasksComponent implements OnInit {
   // );
 
   ngOnInit() {
+    console.log('Input Data' + this.message());
+
     // Console will load only once.
     console.log(this.activateRoute);
     console.log(this.activateRoute.snapshot);

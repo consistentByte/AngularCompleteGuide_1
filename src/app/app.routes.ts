@@ -16,6 +16,9 @@ export const routes: Routes = [
     path: 'users/:userId', // <domain>/users/<uid>, :___ => dynamic part
     component: UserTasksComponent,
     children: userRoutes,
+    data: {
+      message: 'Hello',
+    },
   },
   {
     path: '**',
@@ -39,4 +42,7 @@ export const routes: Routes = [
   So in above case a router-outlet must be added in UserTasksComponent.
 
   catchAll or "**" route that is put at last in routes list, which becomes active if no other route matches the path.
+
+  data property helps us define key value pairs.
+  If input based approach for reading routes is enabled, data properties fill be provided via inputs.
 */
