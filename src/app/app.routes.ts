@@ -1,7 +1,10 @@
 import { Routes } from '@angular/router';
 import { TasksComponent } from './tasks/tasks.component';
 import { NoTaskComponent } from './tasks/no-task/no-task.component';
-import { UserTasksComponent } from './users/user-tasks/user-tasks.component';
+import {
+  resolveUserName,
+  UserTasksComponent,
+} from './users/user-tasks/user-tasks.component';
 import { NewTaskComponent } from './tasks/new-task/new-task.component';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { routes as userRoutes } from './users/user.routes';
@@ -18,6 +21,9 @@ export const routes: Routes = [
     children: userRoutes,
     data: {
       message: 'Hello',
+    },
+    resolve: {
+      userName: resolveUserName, // Angular will execute this function for us whenever there is change in this route and this route is active, and we will be provided with resolved value.
     },
   },
   {
@@ -45,4 +51,7 @@ export const routes: Routes = [
 
   data property helps us define key value pairs.
   If input based approach for reading routes is enabled, data properties fill be provided via inputs.
+
+  The resolve property works similarly to data, but it is intended for dynamic data instead of static data. The resolve property expects an object with key-value pairs.
+  previously we passed classes now functions.
 */

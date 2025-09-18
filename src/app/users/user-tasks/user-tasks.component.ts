@@ -7,7 +7,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { UsersService } from '../users.service';
-import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  ResolveFn,
+  RouterLink,
+  RouterOutlet,
+  RouterStateSnapshot,
+} from '@angular/router';
 
 @Component({
   selector: 'app-user-tasks',
@@ -16,18 +23,22 @@ import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
   templateUrl: './user-tasks.component.html',
   styleUrl: './user-tasks.component.css',
 })
-export class UserTasksComponent implements OnInit {
+export class UserTasksComponent {
   // userId = input.required<string>();
-  userName = '';
+  // userName = '';
   message = input.required<string>();
-  private usersService = inject(UsersService);
-  private activateRoute = inject(ActivatedRoute);
-  private destroyRef = inject(DestroyRef);
+  userName = input.required<string>();
+
+  // private usersService = inject(UsersService);
+  // private activateRoute = inject(ActivatedRoute);
+  // private destroyRef = inject(DestroyRef);
 
   // userName = computed(
   //   () => this.usersService.users.find((u) => u.id === this.userId())?.id
   // );
 
+  /*
+  // not using ngOnInit, since data fetch is done using resolver.
   ngOnInit() {
     console.log('Input Data' + this.message());
 
@@ -53,7 +64,39 @@ export class UserTasksComponent implements OnInit {
       subs.unsubscribe();
     });
   }
+*/
 }
+
+/*
+  naming like this since we are creating a resolver function to get userName.
+  To be accepted in resolve array it must have a specific function definition, adding type to a function, ResolveFn
+  we cant subscribe to snapshot, but the resolver is called every time this route gets active, and it will then recieve the latest snapshot, therefore no reason for subscribing to activated route here.
+  even if the route param change the resolver will be called.
+
+  resolve function must return the data that it has to resolve, e.g. username
+  
+  resolve function is outside of class so no access to this.
+  But we can use inject function in order to inject a service in that function.
+  constructor cant be used since functions do not have a constructor.
+
+  ResolveFn<string> , function definition of type RouterFn returning a string.
+
+  If the input approach for route fetch is enabled,
+    resolved data will be recieved via input.
+*/
+
+export const resolveUserName: ResolveFn<string> = (
+  activatedRoute: ActivatedRouteSnapshot,
+  routerState: RouterStateSnapshot
+) => {
+  const usersService = inject(UsersService);
+  const userName =
+    usersService.users.find(
+      (u) => u.id === activatedRoute.paramMap.get('userId')
+    )?.name || '';
+  return userName;
+};
+
 /*
   Different ways of getting hold of a path parameter value:
   1] Extracting Route params via Inputs: 
