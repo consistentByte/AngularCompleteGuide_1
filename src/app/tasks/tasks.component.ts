@@ -5,6 +5,7 @@ import {
   inject,
   input,
   OnInit,
+  signal,
 } from '@angular/core';
 
 import { TaskComponent } from './task/task.component';
@@ -27,15 +28,26 @@ export class TasksComponent implements OnInit {
 
   // order = input<'asc' | 'desc'>(); // getting queryParams using input approach. This works since the setup for getting url info like path param or queryParam was already done before.
   // not required since query params are optional.
-  order?: 'asc' | 'desc';
+  // order?: 'asc' | 'desc';
+  order = signal<'asc' | 'desc'>('desc');
 
   userTasks = computed(() =>
-    this.taskService.allTasks().filter((task) => task.userId === this.userId())
+    this.taskService
+      .allTasks()
+      .filter((task) => task.userId === this.userId())
+      .sort((a, b) => {
+        if (this.order() === 'desc') {
+          return a.id > b.id ? -1 : 1;
+        } else {
+          return a.id > b.id ? 1 : -1;
+        }
+      })
   );
 
   ngOnInit() {
     const sub = this.activatedRoute.queryParams.subscribe({
-      next: (params) => (this.order = params['order']),
+      // next: (params) => (this.order = params['order']),
+      next: (params) => this.order.set(params['order']),
     });
     this.destroyRef.onDestroy(() => {
       sub.unsubscribe();
