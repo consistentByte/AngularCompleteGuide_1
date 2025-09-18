@@ -23,11 +23,21 @@ import {
   templateUrl: './user-tasks.component.html',
   styleUrl: './user-tasks.component.css',
 })
-export class UserTasksComponent {
+export class UserTasksComponent implements OnInit {
   // userId = input.required<string>();
   // userName = '';
   message = input.required<string>();
   userName = input.required<string>();
+  private activatedRoute = inject(ActivatedRoute);
+
+  ngOnInit() {
+    //data property geves us the static and dynamically resolved data. value is re-emitted whenever value changes.
+    this.activatedRoute.data.subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+    });
+  }
 
   // private usersService = inject(UsersService);
   // private activateRoute = inject(ActivatedRoute);
