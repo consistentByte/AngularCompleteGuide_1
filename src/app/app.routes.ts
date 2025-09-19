@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { NoTaskComponent } from './tasks/no-task/no-task.component';
 import {
+  resolveTitle,
   resolveUserName,
   UserTasksComponent,
 } from './users/user-tasks/user-tasks.component';
@@ -13,6 +14,7 @@ export const routes: Routes = [
     component: NoTaskComponent,
     // redirectTo: '/users/u1',
     // pathMatch: 'prefix' //<domain>/ =>  error as every path starts from '', so infinite redirect error, so use full instead
+    title: 'No Task selected', // page title on tab
   },
   {
     path: 'users/:userId', // <domain>/users/<uid>, :___ => dynamic part
@@ -24,6 +26,7 @@ export const routes: Routes = [
     resolve: {
       // userName: resolveUserName, // Angular will execute this function for us whenever there is change in this route and this route is active, and we will be provided with resolved value.
     },
+    title: resolveTitle,
   },
   {
     path: '**',
@@ -53,4 +56,9 @@ export const routes: Routes = [
 
   The resolve property works similarly to data, but it is intended for dynamic data instead of static data. The resolve property expects an object with key-value pairs.
   previously we passed classes now functions.
+
+  in title property of route for static page title we can set string values,
+    but if we want to dynamically set page title, e.g. username as page title, we can also pass a resolver function resolving to a string value.
+
+  
 */
