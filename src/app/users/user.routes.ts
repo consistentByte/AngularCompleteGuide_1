@@ -1,23 +1,30 @@
 import { Routes } from '@angular/router';
-import { TasksComponent } from '../tasks/tasks.component';
 import { NewTaskComponent } from '../tasks/new-task/new-task.component';
+import { resolveUserTasks, TasksComponent } from '../tasks/tasks.component';
 
 export const routes: Routes = [
   {
-    path: '', // <domain>/users/<uid>, adding default behavior that if no thing is added after parent path, redirect
+    path: '',
     redirectTo: 'tasks',
-    pathMatch: 'prefix', // when adding redirectTo property we must add this pathMatch key to (prefix or full) to tell angular how to parse the redirect path.
-  }, // putting pathMatch as prefix won't matter here, as we are dealing with nested child route here.
+    pathMatch: 'full',
+  },
   {
-    path: 'tasks', // <domain>/users/<uid>/tasks
+    path: 'tasks', // <your-domain>/users/<uid>/tasks
     component: TasksComponent,
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+    resolve: {
+      userTasks: resolveUserTasks,
+    },
   },
   {
     path: 'tasks/new',
     component: NewTaskComponent,
   },
-  // {
-  //   path: '**',
-  //   component: NotFoundComponent, // fallback component
-  // },
 ];
+
+/*
+resolver functions are re-executed if a route parameter change but not if query param changes,
+To solve this use runGuardsAndResolvers property.
+runGuardsAndResolvers: 'always' resolver functions will always be executed whenever anything happens to route.
+runGuardsAndResolvers: 'paramsOrQueryParamsChange' resolver functions will always be executed whenever our route params change or query param change.
+*/

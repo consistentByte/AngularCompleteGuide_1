@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { TasksComponent } from './tasks/tasks.component';
 import { NoTaskComponent } from './tasks/no-task/no-task.component';
 import {
   resolveUserName,
@@ -23,7 +22,7 @@ export const routes: Routes = [
       message: 'Hello',
     },
     resolve: {
-      userName: resolveUserName, // Angular will execute this function for us whenever there is change in this route and this route is active, and we will be provided with resolved value.
+      // userName: resolveUserName, // Angular will execute this function for us whenever there is change in this route and this route is active, and we will be provided with resolved value.
     },
   },
   {
