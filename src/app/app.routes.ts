@@ -90,4 +90,7 @@ export const routes: Routes = [
   canMatch guard =>checks if it allows you to control whether this entire route should be matched by a certain navigation action or not. 
     In other words, whether some path entered into the URL should match this route.
   canActivateChild: if we allow this route to access but not its children
+
+  canDeactivate: this route guard decides if a user is allowed to leave a page.
+
 */

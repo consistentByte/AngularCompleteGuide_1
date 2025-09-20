@@ -2,7 +2,7 @@ import { Component, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { TasksService } from '../tasks.service';
-import { Router, RouterLink } from '@angular/router';
+import { CanDeactivateFn, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-new-task',
@@ -36,3 +36,20 @@ export class NewTaskComponent {
     // replaceUrl => works like a redirect and ensures user cant use back button to go back to this page where they're coming from.
   }
 }
+
+export const canLeaveEditPage: CanDeactivateFn<NewTaskComponent> = (
+  component
+) => {
+  if (
+    component.enteredTitle() ||
+    component.enteredDate() ||
+    component.enteredSummary()
+  ) {
+    return window.confirm(
+      'Do you really want to leave? You will lose the entered data.'
+    );
+  }
+  return true;
+  // returns true always, but if user entered any values, then on leaving it will ask if user really wants to leave and returns true or false based on the dialog response.
+};
+// <NewTaskComponent> => Letting angular know to which component this will be tied.
