@@ -16,6 +16,8 @@ export class NewTaskComponent {
   enteredTitle = signal('');
   enteredSummary = signal('');
   enteredDate = signal('');
+  // submitted = signal(false);
+  submitted = false;
   private tasksService = inject(TasksService);
   private router = inject(Router); // for programmatic navigation
 
@@ -28,6 +30,9 @@ export class NewTaskComponent {
       },
       this.userId()
     );
+
+    this.submitted = true;
+
     //Progrmmatic navigation, array passed is same as router link
     this.router.navigate(['/users', this.userId(), 'tasks'], {
       replaceUrl: true,
@@ -40,6 +45,10 @@ export class NewTaskComponent {
 export const canLeaveEditPage: CanDeactivateFn<NewTaskComponent> = (
   component
 ) => {
+  // on cancel or pressing back button we get a popup but on submitting thee form, we don't get a popup and we proceed
+  if (component.submitted) {
+    return true;
+  }
   if (
     component.enteredTitle() ||
     component.enteredDate() ||
