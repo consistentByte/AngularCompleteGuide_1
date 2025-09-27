@@ -1,4 +1,8 @@
-import { Component, inject, input } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+} from '@angular/core';
 import { ResolveFn, RouterLink } from '@angular/router';
 
 import { TaskComponent } from './task/task.component';

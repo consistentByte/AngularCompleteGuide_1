@@ -1,8 +1,8 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CanDeactivateFn, Router, RouterLink } from '@angular/router';
 
 import { TasksService } from '../tasks.service';
-import { CanDeactivateFn, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-new-task',
@@ -16,10 +16,9 @@ export class NewTaskComponent {
   enteredTitle = signal('');
   enteredSummary = signal('');
   enteredDate = signal('');
-  // submitted = signal(false);
   submitted = false;
   private tasksService = inject(TasksService);
-  private router = inject(Router); // for programmatic navigation
+  private router = inject(Router);
 
   onSubmit() {
     this.tasksService.addTask(
@@ -30,35 +29,20 @@ export class NewTaskComponent {
       },
       this.userId()
     );
-
     this.submitted = true;
 
-    //Progrmmatic navigation, array passed is same as router link
     this.router.navigate(['/users', this.userId(), 'tasks'], {
       replaceUrl: true,
     });
-    // in config we can also set queryParams,
-    // replaceUrl => works like a redirect and ensures user cant use back button to go back to this page where they're coming from.
   }
 }
 
-export const canLeaveEditPage: CanDeactivateFn<NewTaskComponent> = (
-  component
-) => {
-  // on cancel or pressing back button we get a popup but on submitting thee form, we don't get a popup and we proceed
+export const canLeaveEditPage: CanDeactivateFn<NewTaskComponent> = (component) => {
   if (component.submitted) {
     return true;
   }
-  if (
-    component.enteredTitle() ||
-    component.enteredDate() ||
-    component.enteredSummary()
-  ) {
-    return window.confirm(
-      'Do you really want to leave? You will lose the entered data.'
-    );
+  if (component.enteredTitle() || component.enteredDate() || component.enteredSummary()) {
+    return window.confirm('Do you really want to leave? You will lose the entered data.')
   }
   return true;
-  // returns true always, but if user entered any values, then on leaving it will ask if user really wants to leave and returns true or false based on the dialog response.
-};
-// <NewTaskComponent> => Letting angular know to which component this will be tied.
+}

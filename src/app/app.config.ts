@@ -4,6 +4,7 @@ import {
   withComponentInputBinding,
   withRouterConfig,
 } from '@angular/router';
+
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -17,7 +18,3 @@ export const appConfig: ApplicationConfig = {
     ),
   ],
 };
-
-/*
-  withComponentInputBinding: to enable enable binding approach to read dynamic values of route.
-*/
