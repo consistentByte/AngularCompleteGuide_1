@@ -21,7 +21,7 @@ const dummyCanMatch: CanMatchFn = (route: Route, segments: UrlSegment[]) => {
   // we can inject service if we want, or a observable to yield a boolean value, but ultimately return a boolean
   const router = inject(Router);
   const shouldGetAccess = Math.random();
-  if (shouldGetAccess < 0.5) {
+  if (shouldGetAccess < 1) {
     return true;
   }
   // routeGuard allows to either return a boolean or a RedirectCommand().

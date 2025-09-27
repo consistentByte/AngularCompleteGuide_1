@@ -14,7 +14,8 @@ export const routes: Routes = [
   {
     path: 'tasks', // <your-domain>/users/<uid>/tasks
     component: TasksComponent,
-    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+    // runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+    runGuardsAndResolvers: 'always',
     resolve: {
       userTasks: resolveUserTasks,
     },
@@ -31,4 +32,7 @@ resolver functions are re-executed if a route parameter change but not if query 
 To solve this use runGuardsAndResolvers property.
 runGuardsAndResolvers: 'always' resolver functions will always be executed whenever anything happens to route.
 runGuardsAndResolvers: 'paramsOrQueryParamsChange' resolver functions will always be executed whenever our route params change or query param change.
+
+setting runGuardsAndResolvers: 'always' from runGuardsAndResolvers: 'paramsOrQueryParamsChange' because otherwise angular won't run resolvers again, as neither the path param nor query params change on reload.
+
 */
