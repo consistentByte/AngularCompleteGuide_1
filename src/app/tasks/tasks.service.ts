@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 
 import { type NewTaskData } from './task/task.model';
 
-@Injectable({ providedIn: 'root' })
+// @Injectable({ providedIn: 'root' }) // provided when the application is started since this serice is proided with root injector.
 export class TasksService {
   private tasks = signal([
     {

@@ -31,24 +31,30 @@ const resolveUserTasks: ResolveFn<Task[]> = (
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'tasks',
-    pathMatch: 'full',
-  },
-  {
-    path: 'tasks', // <your-domain>/users/<uid>/tasks
-    // component: TasksComponent,
-    loadComponent: () =>
-      import('../tasks/tasks.component').then(
-        (module) => module.TasksComponent
-      ),
-    runGuardsAndResolvers: 'always',
-    resolve: {
-      userTasks: resolveUserTasks,
-    },
-  },
-  {
-    path: 'tasks/new',
-    component: NewTaskComponent,
-    canDeactivate: [canLeaveEditPage],
+    providers: [TasksService], // we have providers property on route level as well, TasksService will be availble to all the child routes, and since, user-routes is loaded lazily, tasks Service will also be loaded lazily
+    children: [
+      {
+        path: '',
+        redirectTo: 'tasks',
+        pathMatch: 'full',
+      },
+      {
+        path: 'tasks', // <your-domain>/users/<uid>/tasks
+        // component: TasksComponent,
+        loadComponent: () =>
+          import('../tasks/tasks.component').then(
+            (module) => module.TasksComponent
+          ),
+        runGuardsAndResolvers: 'always',
+        resolve: {
+          userTasks: resolveUserTasks,
+        },
+      },
+      {
+        path: 'tasks/new',
+        component: NewTaskComponent,
+        canDeactivate: [canLeaveEditPage],
+      },
+    ],
   },
 ];
