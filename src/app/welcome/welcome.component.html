@@ -45,11 +45,12 @@
   <app-offer-preview />
 } -->
 
-@defer(on viewport) {
+<!-- @defer(on viewport) { -->
+@defer(on interaction) {
 <app-offer-preview />
 } @placeholder {
 <!-- technically user will never see it since defer content will be loaded when user scrolls to offer-preview viewport. -->
-<p>We might have an offer...</p>
+<p class="fallback">We might have an offer...</p>
 }
 
 <!-- 
@@ -62,6 +63,8 @@
   
   Adding a trigger, on <trigger>
     on viewport : component will only be loaded when user scrolls to its viewport.
-  @placeholder is provided by @defer, to show a placeholder content until the component in defer is not loaded. This content will be rendered initially.
+    on interaction: component will only be loaded when user does an interaction with the placeholder, e.g. user clicks on placeholder.
+
+    @placeholder is provided by @defer, to show a placeholder content until the component in defer is not loaded. This content will be rendered initially.
 
 -->
