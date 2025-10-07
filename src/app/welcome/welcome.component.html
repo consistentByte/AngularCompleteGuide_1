@@ -46,7 +46,9 @@
 } -->
 
 <!-- @defer(on viewport) { -->
-@defer(on interaction) {
+<!-- @defer(on interaction) { -->
+<!-- @defer(on interaction) { -->
+@defer(on interaction; prefetch on hover) {
 <app-offer-preview />
 } @placeholder {
 <!-- technically user will never see it since defer content will be loaded when user scrolls to offer-preview viewport. -->
@@ -64,7 +66,11 @@
   Adding a trigger, on <trigger>
     on viewport : component will only be loaded when user scrolls to its viewport.
     on interaction: component will only be loaded when user does an interaction with the placeholder, e.g. user clicks on placeholder.
-
-    @placeholder is provided by @defer, to show a placeholder content until the component in defer is not loaded. This content will be rendered initially.
+      can use template variables, e.g. if greeting is a template variable, interation(greeting) to show when interaction happens with placeholder and greeting is truthy.
+  prefetch: to prefetch the component to speed up the loading process.
+    we can also setup prefetch on triggers:
+    prefetch on hover: to prefetch the defer component when use hovers the placeholder.
+  
+  @placeholder is provided by @defer, to show a placeholder content until the component in defer is not loaded. This content will be rendered initially.
 
 -->
