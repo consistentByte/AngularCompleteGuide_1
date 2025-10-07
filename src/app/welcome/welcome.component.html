@@ -41,4 +41,27 @@
   </p>
 </section>
 
+<!-- @defer {
+  <app-offer-preview />
+} -->
+
+@defer(on viewport) {
 <app-offer-preview />
+} @placeholder {
+<!-- technically user will never see it since defer content will be loaded when user scrolls to offer-preview viewport. -->
+<p>We might have an offer...</p>
+}
+
+<!-- 
+  Loading a component lazily.
+  @defer, to lazily load a component and all its children.
+
+  wrap @defer around the component we want to load lazily.
+  If no trigger condition is passed, then once the browser enters the idle state (not performing any heavy task), the component will be loaded.
+  We can pass trigger conditions as well.
+  
+  Adding a trigger, on <trigger>
+    on viewport : component will only be loaded when user scrolls to its viewport.
+  @placeholder is provided by @defer, to show a placeholder content until the component in defer is not loaded. This content will be rendered initially.
+
+-->
